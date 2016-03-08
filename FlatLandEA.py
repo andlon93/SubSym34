@@ -10,14 +10,14 @@ class individual:
 		self.mutation_prob = mutation_prob
 		self.genotype = genotype
 		if self.genotype==None:
-			print(layers)
+			#print(layers)
 			self.makeRandomGenotype(layers)
-		#self.update_fitness()
+		self.update_fitness()
 	#
 	def makeRandomGenotype(self, layers):
 		#self.genotype.append( [ [None]*layers[i] ]*layers[i+1] )
 		self.genotype = []
-		print(len(layers))
+		#print(len(layers))
 		for i in range(len(layers)-1):
 			temp1=[]
 			for j in range(layers[i]):
@@ -38,13 +38,13 @@ class individual:
 			u=rng.randint(0,len(self.genotype[t])-1)
 			v=rng.randint(0,len(self.genotype[t][u])-1)
 			self.genotype[t][u][v] = rng.random()
-			#self.update_fitness()
+			self.update_fitness()
 		return is_mutated
 	#
 	def update_fitness(self):
-		self.fitness = 0
-			
-n=individual(0.2,[2,2])
-print(n.genotype)
-n.try_to_mutate()
-print(n.genotype)
+		self.fitness = rng.random()
+if __name__ == '__main__':		
+	n=individual(0.2,[2,2])
+	print(n.genotype)
+	n.try_to_mutate()
+	print(n.genotype)
