@@ -1,14 +1,12 @@
 import random as rng
 import ParentSelection as PS
-import OneMax as OM
-import LOLZ
 import numpy as np
-import SurprisingSequences as SS
 import copy
+import FlatLandEA as FL
 ### Function that: Make children based on two genotypes
 	#	Input:         two genotypes
 	#   Outout:        Children(new genotypes)
-def One_Point_Crossover(isOneMax, female, male):
+def One_Point_Crossover(female, male):
 	# Number to split the genomes on
 	split = rng.randint(0, len(female.genotype)-1)
 	
@@ -28,20 +26,16 @@ def One_Point_Crossover(isOneMax, female, male):
 	child =  OM.individual(female.genotype_Length, female.mutation_prob, female_genome+male_genome)
 	print(child.genotype)
 	'''
-	if isOneMax:
-		child1 = OM.individual(female.genotype_Length, female.mutation_prob, female_genome_1+male_genome_2)
-		child2 = OM.individual(female.genotype_Length, female.mutation_prob, male_genome_1+female_genome_2)
-	else:
-		child1 = LOLZ.individual(female.genotype_Length, female.mutation_prob, female_genome_1+male_genome_2)
-		child2 = LOLZ.individual(female.genotype_Length, female.mutation_prob, male_genome_1+female_genome_2)
-
+	m=male.mutation_prob
+	child1 = FL.individual(m, None, female_genome_1+male_genome_2)
+	child2 = FL.individual(m, None, male_genome_1+female_genome_2)
 	# Returning the new genotypes combined from the two parents
 	return child1, child2
 
 	### Function that: Make children based on two genotypes
 	#	Input:         two genotypes
 	#   Outout:        Children(new genotypes)
-def N_Point_Crossover(Choose_problem, parents, Nsplits):
+def N_Point_Crossover(parents, Nsplits):
 
 	Ngenes = len(parents[0].genotype)
 	mutation_prob = parents[0].mutation_prob
@@ -56,25 +50,14 @@ def N_Point_Crossover(Choose_problem, parents, Nsplits):
 	for i in range(len(splits)-1):
 		genome1 = genome1 + parents[i%2].genotype[splits[i]:splits[i+1]]
 		genome2 = genome2 + parents[i%2-1].genotype[splits[i]:splits[i+1]]
-	if Choose_problem==0:
-		child1 = OM.individual(Ngenes, mutation_prob, parents[0].goal_string, genome1)
-		child2 = OM.individual(Ngenes, mutation_prob, parents[0].goal_string, genome2)
-	elif Choose_problem==1:
-		child1 = LOLZ.individual(Ngenes, parents[0].z, mutation_prob, genome1)
-		child2 = LOLZ.individual(Ngenes, parents[0].z, mutation_prob, genome2)
-	elif Choose_problem==2:
-		s=parents[0].s
-		child1 = SS.individual(Ngenes, s, mutation_prob, False, genome1)
-		child2 = SS.individual(Ngenes, s, mutation_prob, False, genome2)
-	else:
-		s=parents[0].s
-		child1 = SS.individual(Ngenes, s, mutation_prob, True, genome1)
-		child2 = SS.individual(Ngenes, s, mutation_prob, True, genome2)
+	m=parents[0].mutation_prob
+	child1 = FL.individual(m, None, genome1)
+	child2 = FL.individual(m, None, genome2)
 
 	# Returning the new genotypes combined from the two parents
 	return child1, child2
 
-def make_children(Choose_problem, adults, children_size, Nsplits, p, p_selection, scaling):
+def make_children(adults, children_size, Nsplits, p, p_selection, scaling):
 	children = []
 	# --- Select two random parents and make a child until 
 	#     number of children equals children_size.
@@ -85,12 +68,14 @@ def make_children(Choose_problem, adults, children_size, Nsplits, p, p_selection
 
 		# --- Find parents.
 		parents = p_selection(scaling, adults, 2, 0.05, 24)
+		#print(parents[0].genotype)
 		#if p_selection==0: parents = PS.Global_Selection(scaling, adults, 2)
 		#else: parents = PS.Tournament_Selection()
 
 		# --- Make children.
 		if (rng.random() < p):
-			child1, child2 = N_Point_Crossover(Choose_problem, parents, Nsplits)
+			child1, child2 = One_Point_Crossover(parents[0], parents[1])
+			#child1, child2 = N_Point_Crossover(parents, Nsplits)
 		else:
 			child1 = parents[0]
 			child2 = parents[1]

@@ -1,9 +1,7 @@
 import random as rng
 import numpy as np
 import matplotlib.pyplot as plt
-import OneMax as OM
-import LOLZ
-import SurprisingSequences as SS
+import FlatLandEA as FL
 import AdultSelection as AS
 import ParentSelection as PS
 import Crossover as C
@@ -33,7 +31,7 @@ def calculate_avg_std(survivors):
 
 	return avg_fitness, std_fitness
 #
-def EA_Loop(scaling, p_selection, adult_alg, Choose_problem, z, s, pop_size, generation_limit, NSplits, Crossover_rate, mutation_rate, bit_length):
+def EA_Loop(scaling, p_selection, adult_alg, pop_size, generation_limit, NSplits, Crossover_rate, mutation_rate, layers):
 	# Initialise first child pool. mutate to pheno. fitness calc.
 
 	# --- Initialise population with random candidate solutions.
@@ -41,23 +39,8 @@ def EA_Loop(scaling, p_selection, adult_alg, Choose_problem, z, s, pop_size, gen
 	survivors = []
 	parents = []
 
-	if Choose_problem==0:
-		print("Solving the One Max problem")
-		goal=None
-		for i in range(pop_size):
- 			survivors.append(OM.individual(bit_length, mutation_rate, goal))
-	elif Choose_problem==1:
-		#print("Solving the LOLZ-prefix problem")
-		for i in range(pop_size):
-			survivors.append(LOLZ.individual(bit_length, z, mutation_rate))
-	elif Choose_problem==2:
-		print("Solving Locally Surprising Sequences")
-		for i in range(pop_size*10):
-			survivors.append(SS.individual(bit_length, s, mutation_rate, False))
-	else:
-		print("Solving Globally Surprising Sequences")
-		for i in range(pop_size):
-			survivors.append(SS.individual(bit_length, s, mutation_rate, True))
+	for i in range(pop_size):
+		survivors.append(FL.individual(1.0, layers))
 
 	# --- Initialize generation count.
 	Ngenerations = 1
@@ -81,7 +64,7 @@ def EA_Loop(scaling, p_selection, adult_alg, Choose_problem, z, s, pop_size, gen
 		#     Recombine pairs of parents.
 		#     Mutate the resulting offspring.
 		#print("Generation: ", Ngenerations)
-		children = C.make_children(Choose_problem, survivors, pop_size, NSplits, Crossover_rate, p_selection, scaling)
+		children = C.make_children(survivors, pop_size, NSplits, Crossover_rate, p_selection, scaling)
 		#print("children made")
 		# --- Select individuals for the next generation.
 		#     N of the best individuals survive (fitness biased).
@@ -107,7 +90,7 @@ def EA_Loop(scaling, p_selection, adult_alg, Choose_problem, z, s, pop_size, gen
 	else: return Ngenerations, False, plotting, plotting2
 	#return Ngenerations
 #
-def main(Choose_problem, bit_length, z, s, pop_size, Crossover_rate, mutation_rate, adult_alg, parent_alg, scaling):
+def main(bit_length, pop_size, Crossover_rate, mutation_rate, adult_alg, parent_alg, scaling, layers):
 	#Choose_problem = 3 # 0==OneMax, 1==LOLZ, 2==LocalSS, 3==GlobalSS
 	#adult_alg = 0 # 0==full repl., 1==over prod., 2==Gen. mixing 
 	#parent_alg = 0 # 0==Global, 1==tournament
@@ -131,6 +114,7 @@ def main(Choose_problem, bit_length, z, s, pop_size, Crossover_rate, mutation_ra
 	#
 	#plotting=[[]]*100
 	#
+	'''
 	for i in range(N):
 		if adult_alg==0:
 			if parent_alg==0:
@@ -164,10 +148,10 @@ def main(Choose_problem, bit_length, z, s, pop_size, Crossover_rate, mutation_ra
 				if scaling==0:Ngenerations, isDone, plots, plots2 = EA_Loop(PS.fitness_proportionate_scaling , PS.Tournament_Selection, AS.Full_Generational_Replacement, Choose_problem, z, s, pop_size, gen_limit, NSplits, Crossover_rate, mutation_rate, bit_length)
 				elif scaling==1:Ngenerations, isDone, plots, plots2 = EA_Loop(PS.sigma_scaling , PS.Tournament_Selection, AS.Full_Generational_Replacement, Choose_problem, z, s, pop_size, gen_limit, NSplits, Crossover_rate, mutation_rate, bit_length)
 				elif scaling==2:Ngenerations, isDone, plots, plots2 = EA_Loop(PS.boltzmann_scaling , PS.Tournament_Selection, AS.Full_Generational_Replacement, Choose_problem, z, s, pop_size, gen_limit, NSplits, Crossover_rate, mutation_rate, bit_length)
-				else:Ngenerations, isDone, plots, plots2 = EA_Loop(PS.rank_scaling , PS.Tournament_Selection, AS.Full_Generational_Replacement, Choose_problem, z, s, pop_size, gen_limit, NSplits, Crossover_rate, mutation_rate, bit_length)
-		if not isDone:Nfails += 1
-		sum_generations += Ngenerations
-		std_generations += (Ngenerations - sum_generations/(i+1))**2
+				else:Ngenerations, isDone, plots, plots2 = EA_Loop(PS.rank_scaling , PS.Tournament_Selection, AS.Full_Generational_Replacement, Choose_problem, z, s, pop_size, gen_limit, NSplits, Crossover_rate, mutation_rate, bit_length)'''
+		#if not isDone:Nfails += 1
+		#sum_generations += Ngenerations
+		#std_generations += (Ngenerations - sum_generations/(i+1))**2
 		#if i%50==0:
 		#	print("\nRuns: ", i+1)
 		#	print("Number of fails: ", Nfails)
@@ -231,12 +215,12 @@ def run():
 		#
 #
 if __name__ == '__main__':
+	EA_Loop(PS.rank_scaling , PS.Tournament_Selection, AS.Full_Generational_Replacement, 100, 10, 2, 0.1, 0.2, [2,2])
 	#Crossover_rate = 0.8
 	#mutation_rate = 0.0001
 	#print("\n--- Tournament: eps:0.05 k=64")
 	#s=main()
 	#print("Global.\nS:15 bit:37")
-	run()
 	'''j=1
 	temp=[]
 	for mnb in range(j):
