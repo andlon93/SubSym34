@@ -1,6 +1,6 @@
 import random as rng
 #board 0=free, 1=food, 2=poison 3=player
-#player_dir -1=left 0=up 1=right
+#player_dir -1=left 0=up 1=right 2=down
 class game:
 	board = []
 	player_dir = 0
@@ -35,7 +35,7 @@ class game:
 		player_dir = self.player_dir
 		player_pos = self.player_pos
 		nearby = []
-		if player_dir == 0:  #Up
+		if player_dir == 0:  #up
 			tile2Y = player_pos[0]-1
 			tile2X = player_pos[1]
 			tile1Y = player_pos[0]
@@ -56,6 +56,13 @@ class game:
 			tile3X = player_pos[1]-1
 			tile1Y = player_pos[0]-1
 			tile1X = player_pos[1]
+		if player_dir == 2: #Down
+			tile3Y = player_pos[0]-1
+			tile3X = player_pos[1]
+			tile1Y = player_pos[0]
+			tile1X = player_pos[1]+1
+			tile2Y = player_pos[0]+1
+			tile2X = player_pos[1]
 
 		if tile1X>length-1:
 			tile1X=tile1X-length
@@ -83,5 +90,5 @@ if __name__ == '__main__':
 	b.generateBoard((1/3),(1/3),6)
 	for i in range(len(b.board)):
 		print (b.board[i])
-	b.player_dir=-1
+	b.player_dir=2
 	print (b.getNearbyTiles())
