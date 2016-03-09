@@ -35,39 +35,44 @@ class game:
 		player_dir = self.player_dir
 		player_pos = self.player_pos
 		nearby = []
-		if player_dir == 0:  #UP
+		if player_dir == 0:  #Up
 			tile2Y = player_pos[0]-1
 			tile2X = player_pos[1]
-
 			tile1Y = player_pos[0]
 			tile1X = player_pos[1]-1
-
 			tile3Y = player_pos[0]+1
 			tile3X = player_pos[1]
+		if player_dir == 1: #Right
+			tile3Y = player_pos[0]
+			tile3X = player_pos[1]+1
+			tile2Y = player_pos[0]
+			tile2X = player_pos[1]-1
+			tile1Y = player_pos[0]+1
+			tile1X = player_pos[1]
+		if player_dir == -1: #Left
+			tile2Y = player_pos[0]
+			tile2X = player_pos[1]+1
+			tile3Y = player_pos[0]
+			tile3X = player_pos[1]-1
+			tile1Y = player_pos[0]-1
+			tile1X = player_pos[1]
 
-			print (player_pos)
-			print (tile1X,tile1Y," value: ",self.board[tile1X][tile1Y])
-			print (tile2X,tile2Y," value: ",self.board[tile2X][tile2Y])
-			print (tile3X,tile3Y," value: ",self.board[tile3X][tile3Y])
-			'''
-			if tile1Y<0:
-				tile1Y=length+tile1Y
-			if tile2X<0:
-				tile2X=length+tile2X
-			if tile3X>(length-1):
-				tile3X=tile3X-(length)
-			print ("Adjusting")
-			print (tile1X,tile1Y," value: ",self.board[tile1X][tile1Y])
-			print (tile2X,tile2Y," value: ",self.board[tile2X][tile2Y])
-			print (tile3X,tile3Y," value: ",self.board[tile3X][tile3Y])
-			'''
-			nearby.append(self.board[tile2X][tile2Y])
-			nearby.append(self.board[tile1X][tile1Y])
-			nearby.append(self.board[tile3X][tile3Y])
-		if player_dir == 1:
-			pass
-		if player_dir == -1:
-			pass
+		if tile1X>length-1:
+			tile1X=tile1X-length
+		if tile1Y>length-1:
+			tile1Y=tile1Y-length
+		if tile2X>length-1:
+			tile2X=tile2X-length
+		if tile2Y>length-1:
+			tile2Y=tile2Y-length
+		if tile3X>length-1:
+			tile3X=tile3X-length
+		if tile3Y>length-1:
+			tile3Y=tile3Y-length
+
+		nearby.append(self.board[tile2X][tile2Y])
+		nearby.append(self.board[tile1X][tile1Y])
+		nearby.append(self.board[tile3X][tile3Y])
 		return nearby
 
 
@@ -78,4 +83,5 @@ if __name__ == '__main__':
 	b.generateBoard((1/3),(1/3),6)
 	for i in range(len(b.board)):
 		print (b.board[i])
+	b.player_dir=-1
 	print (b.getNearbyTiles())
