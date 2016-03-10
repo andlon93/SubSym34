@@ -21,8 +21,4 @@ class NN:
 				innput[i] = a_Func(innput[i])
 			#
 		output = soft_max(temp)
-
-
-
-
-		
+				
