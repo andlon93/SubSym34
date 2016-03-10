@@ -215,7 +215,7 @@ def run():
 		#
 #
 if __name__ == '__main__':
-	EA_Loop(PS.rank_scaling , PS.Tournament_Selection, AS.Full_Generational_Replacement, 100, 10, 2, 0.1, 0.2, [2,2])
+	EA_Loop(PS.rank_scaling , PS.Tournament_Selection, AS.Full_Generational_Replacement, 100, 10, 2, 0.1, 0.2, [6,3])
 	#Crossover_rate = 0.8
 	#mutation_rate = 0.0001
 	#print("\n--- Tournament: eps:0.05 k=64")
