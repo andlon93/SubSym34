@@ -5,6 +5,8 @@ import FlatLandEA as FL
 import AdultSelection as AS
 import ParentSelection as PS
 import Crossover as C
+import Game as G
+import copy
 ###
 def find_best_individual(gen):
 	best_fitness = -1
@@ -39,8 +41,11 @@ def EA_Loop(scaling, p_selection, adult_alg, pop_size, generation_limit, NSplits
 	survivors = []
 	parents = []
 
+	default_game = G.game()
+	default_game.generateBoard((1/3),(1/3),10)
+
 	for i in range(pop_size):
-		survivors.append(FL.individual(1.0, layers))
+		survivors.append(FL.individual(1.0, layers, copy.deepcopy(default_game)))
 
 	# --- Initialize generation count.
 	Ngenerations = 1
@@ -54,6 +59,8 @@ def EA_Loop(scaling, p_selection, adult_alg, pop_size, generation_limit, NSplits
 	#print("#", Ngenerations, " --- Best individual:\n", "Fitness: ", best_individual.fitness, "Genotype: ", best_individual.genotype)
 
 	# --- Run as long as the best individual has fitness below 1.
+
+
 	while (best_individual.fitness < 1.0 and Ngenerations < generation_limit):
 
 		# --- Update generation count.
@@ -80,7 +87,7 @@ def EA_Loop(scaling, p_selection, adult_alg, pop_size, generation_limit, NSplits
 		plotting.append(best_individual.fitness)
 		#plotting2.append(calculate_avg_std(survivors)[0])
 
-		# --- Logging.	
+		# --- Logging.
 		if Ngenerations%50==0: print("#", Ngenerations, "\nBest individual --- ", "Fitness: ", best_individual.fitness, "Genotype: ", best_individual.genotype, "\nAverage of fitness: ", avg_fitness, ". Standard deviation of fitness: ", std_fitness, ".\n")
 		if best_individual.fitness == 1.0: print("#", Ngenerations, "\t Best individual is optimized!")
 	#
@@ -92,7 +99,7 @@ def EA_Loop(scaling, p_selection, adult_alg, pop_size, generation_limit, NSplits
 #
 def main(bit_length, pop_size, Crossover_rate, mutation_rate, adult_alg, parent_alg, scaling, layers):
 	#Choose_problem = 3 # 0==OneMax, 1==LOLZ, 2==LocalSS, 3==GlobalSS
-	#adult_alg = 0 # 0==full repl., 1==over prod., 2==Gen. mixing 
+	#adult_alg = 0 # 0==full repl., 1==over prod., 2==Gen. mixing
 	#parent_alg = 0 # 0==Global, 1==tournament
 	#scaling = 3 # 0==fitness_prop, 1==sigma, 2==boltzmann, 3==rank
 	#
@@ -208,7 +215,7 @@ def run():
 		else:
 			parent_alg=0
 			scaling=3
-		
+
 		main(int(problem), int(bit_size), int(z), int(s), int(pop_size), float(Crossover_rate), float(mutation_rate), int(adult_alg), int(parent_alg), int(scaling))
 
 		not_done=input("Do you wish to continue(1/0)? ")
@@ -236,7 +243,7 @@ if __name__ == '__main__':
 			if len(temp[n]) > i:
 				s+=temp[n][i]
 				t+=1.0
-		if (t>0.0): 
+		if (t>0.0):
 			#print("append")
 			p1.append( s/t )
 	print("en ferdig----------------------------------------------------------------------------------------------")
@@ -253,7 +260,7 @@ if __name__ == '__main__':
 			if len(temp[n]) > i:
 				s+=temp[n][i]
 				t+=1.0
-		if (t>0.0): 
+		if (t>0.0):
 			p2.append( s/t )
 	#
 	print("to ferdig----------------------------------------------------------------------------------------------")
@@ -270,7 +277,7 @@ if __name__ == '__main__':
 			if len(temp[n]) > i:
 				s+=temp[n][i]
 				t+=1.0
-		if (t>0.0): 
+		if (t>0.0):
 			p3.append( s/t )
 
 	#temp=[]
@@ -283,7 +290,7 @@ if __name__ == '__main__':
 #			s=0.0
 #			t=0.0
 ###				t+=1.0
-	#	if (t>0.0): 
+	#	if (t>0.0):
 	#		p4.append( s/t )
 	print("tre ferdig----------------------------------------------------------------------------------------------")
 	temp=[]
@@ -317,6 +324,6 @@ if __name__ == '__main__':
 	plt.show()'''
 
 	'''pop_size = 220
-	while pop_size < 300: 
+	while pop_size < 300:
 		print("\n--- Population size: ",pop_size)
 		pop_size += 20'''

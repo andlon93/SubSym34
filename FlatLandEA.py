@@ -1,12 +1,15 @@
 import random as rng
+import NN
 #
 class individual:
 	genotype           = None
 	phenotype          = None
 	mutation_prob      = None
+	game               = None
 	normalised_fitness = 0
 	fitness            = 0
-	def __init__(self, mutation_prob, layers, genotype=None):
+
+	def __init__(self, mutation_prob, layers, game, genotype=None):
 		self.mutation_prob = mutation_prob
 		self.genotype = genotype
 		if self.genotype==None:
@@ -42,8 +45,16 @@ class individual:
 		return is_mutated
 	#
 	def update_fitness(self):
-		self.fitness = rng.random()
-if __name__ == '__main__':		
+
+		for i in range(50):
+			self.game.move(NN.forward_propagation(self.game.getNearbyTiles()))
+		self.fitness = self.game.evalFitness()
+
+
+
+
+
+if __name__ == '__main__':
 	n=individual(0.2,[2,2])
 	print(n.genotype)
 	n.try_to_mutate()

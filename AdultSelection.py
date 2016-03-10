@@ -1,6 +1,6 @@
 import copy
 
-# --- Function:  
+# --- Function:
 #     All adults from the previous generation are removed,
 #     and all children gain free entrance to the adult pool.
 #     Input:         list of children
@@ -15,11 +15,10 @@ def Full_Generational_Replacement(children, parents, N):
 	return sorted(children, key=lambda individual: individual.fitness)[len(children)-N:]
 #
 #
-# --- Function:  
+# --- Function:
 #     All previous adults die, but m (the maximum size of the
 #     adult pool) is smaller than n (the number of children).
-#     Hence, the children must compete among themselves for the 
-#     m adult spots, so selection pressure is signiﬁcant. 
+#     Hence, the children must compete among themselves for the
 #     Input:         list of children
 #     Output:        list of new adults
 def Over_Production(children, parents, N):
@@ -28,10 +27,10 @@ def Over_Production(children, parents, N):
 	return sorted(children, key=lambda individual: individual.fitness)[len(children)-N:]
 #
 #
-# --- Function:  
-#     The m adults from the previous generation do not die, so 
-#     they and the n children compete in a free-for-all for the 
-#     m adult spots in the next generation. Selection pressure 
+# --- Function:
+#     The m adults from the previous generation do not die, so
+#     they and the n children compete in a free-for-all for the
+#     m adult spots in the next generation. Selection pressure
 #     on juveniles is extremely high, since they are competing
 #     with some of the best individuals that have evolved so far.
 #     Input:         list of children and parents
