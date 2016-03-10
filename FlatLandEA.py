@@ -45,7 +45,7 @@ class individual:
 		return is_mutated
 	#
 	def update_fitness(self):
-
+		network = NN.NN(self.genotype)
 		for i in range(50):
 			self.game.move(NN.forward_propagation(self.game.getNearbyTiles()))
 		self.fitness = self.game.evalFitness()
