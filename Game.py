@@ -63,19 +63,19 @@ class game:
 			self.board[player_pos[0]][player_pos[1]]=3
 			print ("Facing left")
 
-		if player_dir==0:
+		elif player_dir==0:
 			self.board[player_pos[0]][player_pos[1]]=0
 			player_pos[0]=player_pos[0]-1
 			self.board[player_pos[0]][player_pos[1]]=3
 			print ("Facing forewards")
 
-		if player_dir==1:
+		elif player_dir==1:
 			self.board[player_pos[0]][player_pos[1]]=0
 			player_pos[1]=player_pos[1]+1
 			self.board[player_pos[0]][player_pos[1]]=3
 			print ("Facing right")
 
-		if player_dir==2:
+		elif player_dir==2:
 			self.board[player_pos[0]][player_pos[1]]=0
 			player_pos[0]=player_pos[0]+1
 			self.board[player_pos[0]][player_pos[1]]=3
@@ -87,15 +87,17 @@ class game:
 
 	def evalFitness(self):
 		curr_food_count = 0
-		for i in range(len(self.board)):
-			for k in range(len(self.board)):
-				if (self.board[i][k]==1):
-					curr_food_count = curr_food_count +1
 		curr_poison_count = 0
 		for i in range(len(self.board)):
 			for k in range(len(self.board)):
 				if (self.board[i][k]==2):
 					curr_poison_count = curr_poison_count +1
+				if (self.board[i][k]==1):
+					curr_food_count = curr_food_count +1
+		#for i in range(len(self.board)):
+		#	for k in range(len(self.board)):
+		#		if (self.board[i][k]==2):
+		#			curr_poison_count = curr_poison_count +1
 		food_eaten = self.food_count - curr_food_count
 		poison_eaten = self.poison_count - curr_poison_count
 		# print (food_eaten)
@@ -116,21 +118,21 @@ class game:
 			tile2Y = player_pos[1]
 			tile3X = player_pos[0]
 			tile3Y = player_pos[1]+1
-		if player_dir == 1: #Right
+		elif player_dir == 1: #Right
 			tile1X = player_pos[0]-1
 			tile1Y = player_pos[1]
 			tile2X = player_pos[0]
 			tile2Y = player_pos[1]+1
 			tile3X = player_pos[0]+1
 			tile3Y = player_pos[1]
-		if player_dir == -1: #Left
+		elif player_dir == -1: #Left
 			tile1X = player_pos[0]+1
 			tile1Y = player_pos[1]
 			tile2X = player_pos[0]
 			tile2Y = player_pos[1]-1
 			tile3X = player_pos[0]-1
 			tile3Y = player_pos[1]
-		if player_dir == 2: #Down
+		elif player_dir == 2: #Down
 			tile1X = player_pos[0]
 			tile1Y = player_pos[1]+1
 			tile2X = player_pos[0]+1
@@ -155,9 +157,6 @@ class game:
 		nearby.append(self.board[tile2X][tile2Y])
 		nearby.append(self.board[tile3X][tile3Y])
 		return nearby
-
-
-
 
 if __name__ == '__main__':
 	b = game()
