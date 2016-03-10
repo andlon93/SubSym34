@@ -110,7 +110,10 @@ class game:
 		poison_eaten = self.poison_count - curr_poison_count
 		# print (food_eaten)
 		# print (poison_eaten)
-		return (food_eaten - poison_eaten)
+		if (food_eaten - poison_eaten) < 1:
+			return 0
+		else:
+			return (food_eaten - poison_eaten)
 
 
 	def getNearbyTiles(self):

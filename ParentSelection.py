@@ -19,6 +19,7 @@ def normalise_fitness(generation):
 	# --- Iterate through all individuals and update fitness 
 	#     to the normalized value.
 	#summm = 0
+	if summ==0:summ=1
 	for individ in generation:
 		individ.normalised_fitness = individ.fitness/summ
 		#summm += individ.normalised_fitness
