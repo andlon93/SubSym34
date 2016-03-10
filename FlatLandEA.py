@@ -50,7 +50,7 @@ class individual:
 		game = copy.deepcopy(EA.default_game)
 		network = NN.NN(self.genotype)
 		for i in range(50):
-			game.move(network.forward_propagation(self.game.getNearbyTiles()))
+			game.move(network.forward_propagation(game.getNearbyTiles()))
 			#game.move(0)
 		self.fitness = game.evalFitness()
 		#print ("Fitness: ", self.fitness)
@@ -60,7 +60,7 @@ class individual:
 
 
 if __name__ == '__main__':
-	n=individual(0.2,[2,2])
-	print(n.genotype)
-	n.try_to_mutate()
-	print(n.genotype)
+	n=individual(0.2,[6,3])
+	#print(n.genotype)
+	n.update_fitness()
+	print("Fitness: ", n.fitness)

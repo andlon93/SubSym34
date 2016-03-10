@@ -22,7 +22,6 @@ class NN:
 				innput[i] = self.sigmoid(innput[i])
 			#
 		output = self.soft_max(innput)
-		print(output)
 		return np.argmax(output)
 if __name__ == '__main__':
 	import Game as G
