@@ -164,36 +164,66 @@ class game:
 		nearby.append(self.board[tile1X][tile1Y])
 		nearby.append(self.board[tile2X][tile2Y])
 		nearby.append(self.board[tile3X][tile3Y])
-		return nearby
+
+		ret = []
+		#Food
+		if nearby[0]==1:
+			ret.append(1)
+		else:
+			ret.append(0)
+		if nearby[1]==1:
+			ret.append(1)
+		else:
+			ret.append(0)
+		if nearby[2]==1:
+			ret.append(1)
+		else:
+			ret.append(0)
+		#Poison
+		if nearby[0]==2:
+			ret.append(1)
+		else:
+			ret.append(0)
+		if nearby[1]==2:
+			ret.append(1)
+		else:
+			ret.append(0)
+		if nearby[2]==2:
+			ret.append(1)
+		else:
+			ret.append(0)
+
+
+		return ret
 
 if __name__ == '__main__':
 	b = game()
 	b.generateBoard((1/3),(1/3),10)
-	b.player_dir=0
+	b.player_dir=2
 	for i in range(len(b.board)):
 		print (b.board[i])
 	print (b.getNearbyTiles())
 	print (b.player_pos)
 	print (b.evalFitness())
-	b.move(-1)
+	b.move(0)
 	for i in range(len(b.board)):
 		print (b.board[i])
 	print (b.getNearbyTiles())
 	print (b.player_pos)
 	print (b.evalFitness())
-	b.move(-1)
+	b.move(0)
 	for i in range(len(b.board)):
 		print (b.board[i])
 	print (b.getNearbyTiles())
 	print (b.player_pos)
 	print (b.evalFitness())
-	b.move(-1)
+	b.move(0)
 	for i in range(len(b.board)):
 		print (b.board[i])
 	print (b.getNearbyTiles())
 	print (b.player_pos)
 	print (b.evalFitness())
-	b.move(-1)
+	b.move(0)
 	for i in range(len(b.board)):
 		print (b.board[i])
 	print (b.getNearbyTiles())
