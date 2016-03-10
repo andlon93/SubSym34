@@ -84,6 +84,25 @@ class game:
 		self.player_pos = player_pos
 		self.player_dir = player_dir
 
+
+	def evalFitness(self):
+		curr_food_count = 0
+		for i in range(len(self.board)):
+			for k in range(len(self.board)):
+				if (self.board[i][k]==1):
+					curr_food_count = curr_food_count +1
+		curr_poison_count = 0
+		for i in range(len(self.board)):
+			for k in range(len(self.board)):
+				if (self.board[i][k]==2):
+					curr_poison_count = curr_poison_count +1
+		food_eaten = self.food_count - curr_food_count
+		poison_eaten = self.poison_count - curr_poison_count
+		# print (food_eaten)
+		# print (poison_eaten)
+		return (food_eaten - poison_eaten)
+
+
 	def getNearbyTiles(self):
 		# Returns in order of facing: left, up, right
 		length = len(self.board)
@@ -148,21 +167,25 @@ if __name__ == '__main__':
 		print (b.board[i])
 	print (b.getNearbyTiles())
 	print (b.player_pos)
+	print (b.evalFitness())
 	b.move(-1)
 	for i in range(len(b.board)):
 		print (b.board[i])
 	print (b.getNearbyTiles())
 	print (b.player_pos)
+	print (b.evalFitness())
 	b.move(-1)
 	for i in range(len(b.board)):
 		print (b.board[i])
 	print (b.getNearbyTiles())
 	print (b.player_pos)
+	print (b.evalFitness())
 	b.move(-1)
 	for i in range(len(b.board)):
 		print (b.board[i])
 	print (b.getNearbyTiles())
 	print (b.player_pos)
+	print (b.evalFitness())
 	b.move(-1)
 	for i in range(len(b.board)):
 		print (b.board[i])
