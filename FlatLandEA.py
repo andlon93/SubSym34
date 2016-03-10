@@ -1,18 +1,19 @@
 import random as rng
 import NN
+import EALoop as EA
+import Game as G
+import copy
 #
 class individual:
 	genotype           = None
 	phenotype          = None
 	mutation_prob      = None
-	game               = None
 	normalised_fitness = 0
 	fitness            = 0
 
-	def __init__(self, mutation_prob, layers, game, genotype=None):
+	def __init__(self, mutation_prob, layers, genotype=None):
 		self.mutation_prob = mutation_prob
 		self.genotype = genotype
-		self.game = game
 		if self.genotype==None:
 			#print(layers)
 			self.makeRandomGenotype(layers)
@@ -46,11 +47,13 @@ class individual:
 		return is_mutated
 	#
 	def update_fitness(self):
+		game = copy.deepcopy(EA.default_game)
 		network = NN.NN(self.genotype)
 		for i in range(50):
-			self.game.move(network.forward_propagation(self.game.getNearbyTiles()))
-			#self.game.move(0)
-		self.fitness = self.game.evalFitness()
+			game.move(network.forward_propagation(self.game.getNearbyTiles()))
+			#game.move(0)
+		self.fitness = game.evalFitness()
+		#print ("Fitness: ", self.fitness)
 
 
 

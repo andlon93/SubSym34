@@ -7,9 +7,14 @@ import ParentSelection as PS
 import Crossover as C
 import Game as G
 import copy
+
+
+#Global variables:
+default_game = G.game()
+default_game.generateBoard((1/3),(1/3),10)
 ###
 def find_best_individual(gen):
-	best_fitness = -1
+	best_fitness = -1000
 	best_individual = None
 	for individual in gen:
 		if individual.fitness > best_fitness:
@@ -41,12 +46,10 @@ def EA_Loop(scaling, p_selection, adult_alg, pop_size, generation_limit, NSplits
 	survivors = []
 	parents = []
 
-	default_game = G.game()
-	default_game.generateBoard((1/3),(1/3),10)
+
 
 	for i in range(pop_size):
-		survivors.append(FL.individual(1.0, layers, copy.deepcopy(default_game)))
-
+		survivors.append(FL.individual(1.0, layers))
 	# --- Initialize generation count.
 	Ngenerations = 1
 
