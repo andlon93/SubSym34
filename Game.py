@@ -46,7 +46,6 @@ class game:
 				player_dir=-1
 			elif dir==1:
 				player_dir=1
-				print ("Faced up, turned right")
 		elif player_dir==1:
 			if dir==-1:
 				player_dir=0
@@ -61,25 +60,25 @@ class game:
 			self.board[player_pos[0]][player_pos[1]]=0
 			player_pos[1]=player_pos[1]-1
 			self.board[player_pos[0]][player_pos[1]]=3
-			print ("Facing left")
+			#print ("Facing left")
 
 		if player_dir==0:
 			self.board[player_pos[0]][player_pos[1]]=0
 			player_pos[0]=player_pos[0]-1
 			self.board[player_pos[0]][player_pos[1]]=3
-			print ("Facing forewards")
+			#print ("Facing forewards")
 
 		if player_dir==1:
 			self.board[player_pos[0]][player_pos[1]]=0
 			player_pos[1]=player_pos[1]+1
 			self.board[player_pos[0]][player_pos[1]]=3
-			print ("Facing right")
+			#print ("Facing right")
 
 		if player_dir==2:
 			self.board[player_pos[0]][player_pos[1]]=0
 			player_pos[0]=player_pos[0]+1
 			self.board[player_pos[0]][player_pos[1]]=3
-			print ("Facing down")
+			#print ("Facing down")
 
 		self.player_pos = player_pos
 		self.player_dir = player_dir
@@ -161,7 +160,7 @@ class game:
 
 if __name__ == '__main__':
 	b = game()
-	b.generateBoard((1/3),(1/3),6)
+	b.generateBoard((1/3),(1/3),10)
 	b.player_dir=0
 	for i in range(len(b.board)):
 		print (b.board[i])
