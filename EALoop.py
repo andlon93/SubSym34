@@ -72,11 +72,12 @@ def EA_Loop(scaling, p_selection, adult_alg, pop_size, generation_limit, NSplits
 		#     Select parents.
 		#     Recombine pairs of parents.
 		#     Mutate the resulting offspring.
-		#print("Generation: ", Ngenerations)
+		print("Generation: ", Ngenerations)
 		children = C.make_children(survivors, pop_size, NSplits, Crossover_rate, p_selection, scaling)
 		#print("children made")
 		# --- Select individuals for the next generation.
 		#     N of the best individuals survive (fitness biased).
+		#print("choosing parents...")
 		survivors = adult_alg(children, parents, pop_size)
 
 		# --- Calculate average fitness and standard deviation of fitness.
@@ -91,10 +92,10 @@ def EA_Loop(scaling, p_selection, adult_alg, pop_size, generation_limit, NSplits
 
 		# --- Logging.
 		print("Antall mat: ", default_game.food_count, "Antall gift: ", default_game.poison_count)
-		if Ngenerations%1==0: print("#", Ngenerations, "\nBest individual --- ", "Fitness: ", best_individual.fitness, "\nGenotype: ", best_individual.genotype, "\nAverage of fitness: ", avg_fitness, ". Standard deviation of fitness: ", std_fitness, ".\n")
+		if Ngenerations%2==0: print("#", Ngenerations, "\nBest individual --- ", "Fitness: ", best_individual.fitness, "\nGenotype: ", best_individual.genotype, "\nAverage of fitness: ", avg_fitness, ". Standard deviation of fitness: ", std_fitness, ".\n")
 		if best_individual.fitness == default_game.food_count: print("#", Ngenerations, "\t Best individual is optimized!")
 	#
-	print("#", Ngenerations, "\nBest individual --- ", "Fitness: ", best_individual.fitness, "\nGenotype: ", best_individual.genotype)
+	if Ngenerations%10==0: print("#", Ngenerations, "\nBest individual --- ", "Fitness: ", best_individual.fitness, "\nGenotype: ", best_individual.genotype)
 	#if Choose_problem>1: print("Fitness: ",best_individual.fitness,"\nSequence: ", best_individual.genotype)
 	if (best_individual.fitness == default_game.food_count): return Ngenerations, True, plotting, plotting2
 	else: return Ngenerations, False, plotting, plotting2
@@ -225,7 +226,7 @@ def run():
 		#
 #
 if __name__ == '__main__':
-	EA_Loop(PS.rank_scaling , PS.Global_Selection, AS.Full_Generational_Replacement, 100, 100, 2, 0.1, 0.2, [6,3])
+	EA_Loop(PS.rank_scaling , PS.Tournament_Selection, AS.Full_Generational_Replacement, 100, 100, 2, 0.2, 0.01, [6,3])
 	#Crossover_rate = 0.8
 	#mutation_rate = 0.0001
 	#print("\n--- Tournament: eps:0.05 k=64")
