@@ -2,9 +2,11 @@ import random as rng
 #board 0=free, 1=food, 2=poison 3=player
 #player_dir -1=left 0=up 1=right 2=down
 class game:
-	board = []
-	player_dir = 0
-	player_pos = [0,0]
+	board        = []
+	player_dir   = 0
+	player_pos   = [0,0]
+	food_count   = 0
+	poison_count = 0
 
 	def __init__(self,board=None,player_dir=0, player_pos=[0,0]):
 		# Constructor for pre-generated board
@@ -21,8 +23,10 @@ class game:
 				poisonRng = rng.random()
 				if rng.random()>foodProb and foodRng>poisonRng:
 					self.board[i][k] = 1
+					self.food_count = self.food_count + 1
 				elif rng.random()>poisonProb and poisonRng>foodRng:
 					self.board[i][k] = 2
+					self.poison_count = self.poison_count + 1
 				if player_placed==False and self.board[i][k]==0:
 					self.board[i][k] = 3
 					player_placed=True
@@ -37,17 +41,18 @@ class game:
 				player_dir=2
 			elif dir==1:
 				player_dir=0
-		if player_dir==0:
+		elif player_dir==0:
 			if dir==-1:
 				player_dir=-1
 			elif dir==1:
 				player_dir=1
-		if player_dir==1:
+				print ("Faced up, turned right")
+		elif player_dir==1:
 			if dir==-1:
 				player_dir=0
 			elif dir==1:
 				player_dir=2
-		if player_dir==2:
+		elif player_dir==2:
 			if dir==-1:
 				player_dir=1
 			elif dir==1:
@@ -56,26 +61,25 @@ class game:
 			self.board[player_pos[0]][player_pos[1]]=0
 			player_pos[1]=player_pos[1]-1
 			self.board[player_pos[0]][player_pos[1]]=3
-			print ("moving left")
+			print ("Facing left")
 
 		if player_dir==0:
 			self.board[player_pos[0]][player_pos[1]]=0
 			player_pos[0]=player_pos[0]-1
 			self.board[player_pos[0]][player_pos[1]]=3
-			print ("moving forewards")
+			print ("Facing forewards")
 
 		if player_dir==1:
 			self.board[player_pos[0]][player_pos[1]]=0
-			player_pos[0]=player_pos[0]+1
+			player_pos[1]=player_pos[1]+1
 			self.board[player_pos[0]][player_pos[1]]=3
-			print ("moving right")
+			print ("Facing right")
 
 		if player_dir==2:
 			self.board[player_pos[0]][player_pos[1]]=0
 			player_pos[0]=player_pos[0]+1
 			self.board[player_pos[0]][player_pos[1]]=3
-			print ("moving down")
-			# Don't think we should use this. only move left-foreward-right
+			print ("Facing down")
 
 		self.player_pos = player_pos
 		self.player_dir = player_dir
@@ -144,7 +148,22 @@ if __name__ == '__main__':
 		print (b.board[i])
 	print (b.getNearbyTiles())
 	print (b.player_pos)
-	b.move(2)
+	b.move(-1)
+	for i in range(len(b.board)):
+		print (b.board[i])
+	print (b.getNearbyTiles())
+	print (b.player_pos)
+	b.move(-1)
+	for i in range(len(b.board)):
+		print (b.board[i])
+	print (b.getNearbyTiles())
+	print (b.player_pos)
+	b.move(-1)
+	for i in range(len(b.board)):
+		print (b.board[i])
+	print (b.getNearbyTiles())
+	print (b.player_pos)
+	b.move(-1)
 	for i in range(len(b.board)):
 		print (b.board[i])
 	print (b.getNearbyTiles())
