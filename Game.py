@@ -54,20 +54,29 @@ class game:
 				player_dir=-1
 		if player_dir==-1:
 			self.board[player_pos[0]][player_pos[1]]=0
-			player_pos[0]=player_pos[0]-1
+			player_pos[1]=player_pos[1]-1
 			self.board[player_pos[0]][player_pos[1]]=3
+			print ("moving left")
+
 		if player_dir==0:
 			self.board[player_pos[0]][player_pos[1]]=0
-			player_pos[1]=player_pos[1]+1
+			player_pos[0]=player_pos[0]-1
 			self.board[player_pos[0]][player_pos[1]]=3
+			print ("moving forewards")
+
 		if player_dir==1:
 			self.board[player_pos[0]][player_pos[1]]=0
 			player_pos[0]=player_pos[0]+1
 			self.board[player_pos[0]][player_pos[1]]=3
+			print ("moving right")
+
 		if player_dir==2:
 			self.board[player_pos[0]][player_pos[1]]=0
-			player_pos[1]=player_pos[1]-1
+			player_pos[0]=player_pos[0]+1
 			self.board[player_pos[0]][player_pos[1]]=3
+			print ("moving down")
+			# Don't think we should use this. only move left-foreward-right
+
 		self.player_pos = player_pos
 		self.player_dir = player_dir
 
@@ -130,13 +139,13 @@ class game:
 if __name__ == '__main__':
 	b = game()
 	b.generateBoard((1/3),(1/3),6)
-	b.player_dir=2
+	b.player_dir=0
 	for i in range(len(b.board)):
 		print (b.board[i])
 	print (b.getNearbyTiles())
 	print (b.player_pos)
-	# b.move(0)
-	# for i in range(len(b.board)):
-	# 	print (b.board[i])
-	# print (b.getNearbyTiles())
-	# print (b.player_pos)
+	b.move(2)
+	for i in range(len(b.board)):
+		print (b.board[i])
+	print (b.getNearbyTiles())
+	print (b.player_pos)
