@@ -12,6 +12,7 @@ class individual:
 	def __init__(self, mutation_prob, layers, game, genotype=None):
 		self.mutation_prob = mutation_prob
 		self.genotype = genotype
+		self.game = game
 		if self.genotype==None:
 			#print(layers)
 			self.makeRandomGenotype(layers)
@@ -47,7 +48,8 @@ class individual:
 	def update_fitness(self):
 		network = NN.NN(self.genotype)
 		for i in range(50):
-			self.game.move(NN.forward_propagation(self.game.getNearbyTiles()))
+			self.game.move(network.forward_propagation(self.game.getNearbyTiles()))
+			#self.game.move(0)
 		self.fitness = self.game.evalFitness()
 
 

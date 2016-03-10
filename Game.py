@@ -36,6 +36,7 @@ class game:
 		#dir: -1=left, 0=forward, 1=right
 		player_dir = self.player_dir
 		player_pos = self.player_pos
+		length = len(self.board)
 		if player_dir==-1:
 			if dir==-1:
 				player_dir=2
@@ -59,24 +60,32 @@ class game:
 		if player_dir==-1:
 			self.board[player_pos[0]][player_pos[1]]=0
 			player_pos[1]=player_pos[1]-1
+			if (player_pos[1]<0):
+				player_pos[1]=player_pos[1]+length
 			self.board[player_pos[0]][player_pos[1]]=3
 			#print ("Facing left")
 
 		elif player_dir==0:
 			self.board[player_pos[0]][player_pos[1]]=0
 			player_pos[0]=player_pos[0]-1
+			if (player_pos[0]<0):
+				player_pos[0]=player_pos[0]+length
 			self.board[player_pos[0]][player_pos[1]]=3
 			#print ("Facing forewards")
 
 		elif player_dir==1:
 			self.board[player_pos[0]][player_pos[1]]=0
 			player_pos[1]=player_pos[1]+1
+			if (player_pos[1]>=length):
+				player_pos[1]=player_pos[1]-length
 			self.board[player_pos[0]][player_pos[1]]=3
 			#print ("Facing right")
 
 		elif player_dir==2:
 			self.board[player_pos[0]][player_pos[1]]=0
 			player_pos[0]=player_pos[0]+1
+			if (player_pos[0]>=length):
+				player_pos[0]=player_pos[0]-length
 			self.board[player_pos[0]][player_pos[1]]=3
 			#print ("Facing down")
 
