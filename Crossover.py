@@ -9,11 +9,11 @@ import FlatLandEA as FL
 def One_Point_Crossover(female, male):
 	# Number to split the genomes on
 	split = rng.randint(0, len(female.genotype)-1)
-	
+
 	# Splitting the females genome on the split number
 	female_genome_1 = female.genotype[:split]
 	female_genome_2 = female.genotype[split:]
-	
+
 	# Splitting the males genome on the split number
 	male_genome_1 = male.genotype[:split]
 	male_genome_2 = male.genotype[split:]
@@ -59,7 +59,7 @@ def N_Point_Crossover(parents, Nsplits):
 
 def make_children(adults, children_size, Nsplits, p, p_selection, scaling):
 	children = []
-	# --- Select two random parents and make a child until 
+	# --- Select two random parents and make a child until
 	#     number of children equals children_size.
 	while (len(children) < children_size):
 		#print(len(children))
