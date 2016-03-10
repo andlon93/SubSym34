@@ -49,7 +49,7 @@ class individual:
 	def update_fitness(self):
 		game = copy.deepcopy(EA.default_game)
 		network = NN.NN(self.genotype)
-		for i in range(50):
+		for i in range(60):
 			game.move(network.forward_propagation(game.getNearbyTiles()))
 			#game.move(0)
 		self.fitness = game.evalFitness()

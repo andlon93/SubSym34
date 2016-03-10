@@ -21,6 +21,20 @@ class game:
 			for k in range(length):
 				foodRng = rng.random()
 				poisonRng = rng.random()
+				if rng.random()<foodProb:
+					self.board[i][k] = 1
+					self.food_count = self.food_count + 1
+				elif rng.random()<poisonProb:
+					self.board[i][k] = 2
+					self.poison_count = self.poison_count + 1
+				if player_placed==False and self.board[i][k]==0:
+					self.board[i][k] = 3
+					player_placed=True
+					self.player_pos=[i,k]
+
+				'''
+				foodRng = rng.random()
+				poisonRng = rng.random()
 				if rng.random()>foodProb and foodRng>poisonRng:
 					self.board[i][k] = 1
 					self.food_count = self.food_count + 1
@@ -31,6 +45,7 @@ class game:
 					self.board[i][k] = 3
 					player_placed=True
 					self.player_pos=[i,k]
+				'''
 
 	def move(self,dir):
 		#dir: -1=left, 0=forward, 1=right
