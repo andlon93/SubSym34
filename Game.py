@@ -16,6 +16,8 @@ class game:
 
 	def generateBoard(self,foodProb,poisonProb,length):
 		self.board = [[0 for x in range(length)] for k in range(length) ]
+		self.food_count = 0
+		self.poison_count = 0
 		player_placed = False
 		for i in range(length):
 			for k in range(length):
@@ -123,12 +125,14 @@ class game:
 		#			curr_poison_count = curr_poison_count +1
 		food_eaten = self.food_count - curr_food_count
 		poison_eaten = self.poison_count - curr_poison_count
+		# if poison_eaten > 0:
+		# 	food_eaten = food_eaten / 1.5
 		# print (food_eaten)
 		# print (poison_eaten)
 		if (food_eaten - poison_eaten) < 1:
 			return 0
 		else:
-			return (food_eaten - poison_eaten)
+			return ((food_eaten - poison_eaten)/self.food_count)
 
 
 	def getNearbyTiles(self):

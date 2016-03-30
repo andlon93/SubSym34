@@ -2,6 +2,7 @@ import random as rng
 import ParentSelection as PS
 import numpy as np
 import copy
+import Game as G
 import FlatLandEA as FL
 ### Function that: Make children based on two genotypes
 	#	Input:         two genotypes
@@ -26,6 +27,8 @@ def One_Point_Crossover(female, male):
 	child =  OM.individual(female.genotype_Length, female.mutation_prob, female_genome+male_genome)
 	print(child.genotype)
 	'''
+
+
 	m=male.mutation_prob
 	child1 = FL.individual(m, None, female_genome_1+male_genome_2)
 	child2 = FL.individual(m, None, male_genome_1+female_genome_2)

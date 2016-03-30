@@ -17,7 +17,7 @@ class individual:
 		if self.genotype==None:
 			#print(layers)
 			self.makeRandomGenotype(layers)
-		self.update_fitness()
+		#self.update_fitness()
 	#
 	def makeRandomGenotype(self, layers):
 		#self.genotype.append( [ [None]*layers[i] ]*layers[i+1] )
@@ -43,17 +43,39 @@ class individual:
 			u=rng.randint(0,len(self.genotype[t])-1)
 			v=rng.randint(0,len(self.genotype[t][u])-1)
 			self.genotype[t][u][v] = rng.random()
-			self.update_fitness()
+			#self.update_fitness(copy.deepcopy(self.game))
 		return is_mutated
 	#
-	def update_fitness(self):
+	def save_game_log(self):
+		write_string = "\n"
+
 		game = copy.deepcopy(EA.default_game)
+		for row in game.board:
+			for col in row:
+				write_string = write_string + str(col)
+			write_string += "\n"
+
+
+		network = NN.NN(self.genotype)
+		for i in range(60):
+			move = network.forward_propagation(game.getNearbyTiles())
+			game.move(move)
+			write_string += str(game.player_pos) + "\n"
+			#game.move(0)
+		#self.fitness = game.evalFitness()
+		#print ("Fitness: ", self.fitness)
+		with open("test.txt", "w") as myfile:
+			myfile.write(write_string)
+	#
+	def update_fitness(self, g):
+		game = copy.deepcopy(g)
 		network = NN.NN(self.genotype)
 		for i in range(60):
 			game.move(network.forward_propagation(game.getNearbyTiles()))
 			#game.move(0)
 		self.fitness = game.evalFitness()
 		#print ("Fitness: ", self.fitness)
+
 
 
 

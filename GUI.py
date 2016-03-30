@@ -1,100 +1,85 @@
-import tkinter as tk
-import EALoop as EA
-import copy
+import pygame
 
-game = copy.deepcopy(EA.default_game)
-class GameBoard(tk.Frame):
-    def __init__(self, parent, rows=8, columns=8, size=32, color1="white", color2="blue"):
-        '''size is the size of a square, in pixels'''
+# Define some colors
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
+GREEN = (0, 255, 0)
+RED = (255, 0, 0)
 
-        self.rows = rows
-        self.columns = columns
-        self.size = size
-        self.color1 = color1
-        self.color2 = color2
-        self.pieces = {}
+# This sets the WIDTH and HEIGHT of each grid location
+WIDTH = 20
+HEIGHT = 20
 
-        canvas_width = columns * size
-        canvas_height = rows * size
+# This sets the margin between each cell
+MARGIN = 5
 
-        tk.Frame.__init__(self, parent)
-        self.canvas = tk.Canvas(self, borderwidth=0, highlightthickness=0,
-                                width=canvas_width, height=canvas_height, background="bisque")
-        self.canvas.pack(side="top", fill="both", expand=True, padx=2, pady=2)
+# Create a 2 dimensional array. A two dimensional
+# array is simply a list of lists.
+grid = []
+for row in range(10):
+    # Add an empty array that will hold each cell
+    # in this row
+    grid.append([])
+    for column in range(10):
+        grid[row].append(0)  # Append a cell
 
-        # this binding will cause a refresh if the user interactively
-        # changes the window size
-        self.canvas.bind("<Configure>", self.refresh)
+# Set row 1, cell 5 to one. (Remember rows and
+# column numbers start at zero.)
+grid[1][5] = 1
 
-    def addpiece(self, name, image, row=0, column=0):
-        '''Add a piece to the playing board'''
-        self.canvas.create_image(0,0, image=image, tags=(name, "piece"), anchor="c")
-        self.placepiece(name, row, column)
+# Initialize pygame
+pygame.init()
 
-    def placepiece(self, name, row, column):
-        '''Place a piece at the given row/column'''
-        self.pieces[name] = (row, column)
-        x0 = (column * self.size) + int(self.size/2)
-        y0 = (row * self.size) + int(self.size/2)
-        self.canvas.coords(name, x0, y0)
+# Set the HEIGHT and WIDTH of the screen
+WINDOW_SIZE = [255, 255]
+screen = pygame.display.set_mode(WINDOW_SIZE)
 
-    def refresh(self, event):
-        '''Redraw the board, possibly in response to window being resized'''
-        xsize = int((event.width-1) / self.columns)
-        ysize = int((event.height-1) / self.rows)
-        self.size = min(xsize, ysize)
-        self.canvas.delete("square")
-        color = self.color2
-        for row in range(self.rows):
-            color = self.color1 if color == self.color2 else self.color2
-            for col in range(self.columns):
-                x1 = (col * self.size)
-                y1 = (row * self.size)
-                x2 = x1 + self.size
-                y2 = y1 + self.size
-                self.canvas.create_rectangle(x1, y1, x2, y2, outline="black", fill=color, tags="square")
-                color = self.color1 if color == self.color2 else self.color2
-        for name in self.pieces:
-            self.placepiece(name, self.pieces[name][0], self.pieces[name][1])
-        self.canvas.tag_raise("piece")
-        self.canvas.tag_lower("square")
+# Set title of screen
+pygame.display.set_caption("Array Backed Grid")
 
+# Loop until the user clicks the close button.
+done = False
 
-# image comes from the silk icon set which is under a Creative Commons
-# license. For more information see http://www.famfamfam.com/lab/icons/silk/
-imagedata = '''
-    R0lGODlhEAAQAOeSAKx7Fqx8F61/G62CILCJKriIHM+HALKNMNCIANKKANOMALuRK7WOVLWPV9eR
-    ANiSANuXAN2ZAN6aAN+bAOCcAOKeANCjKOShANKnK+imAOyrAN6qSNaxPfCwAOKyJOKyJvKyANW0
-    R/S1APW2APW3APa4APe5APm7APm8APq8AO28Ke29LO2/LO2/L+7BM+7BNO6+Re7CMu7BOe7DNPHA
-    P+/FOO/FO+jGS+/FQO/GO/DHPOjBdfDIPPDJQPDISPDKQPDKRPDIUPHLQ/HLRerMV/HMR/LNSOvH
-    fvLOS/rNP/LPTvLOVe/LdfPRUfPRU/PSU/LPaPPTVPPUVfTUVvLPe/LScPTWWfTXW/TXXPTXX/XY
-    Xu/SkvXZYPfVdfXaY/TYcfXaZPXaZvbWfvTYe/XbbvHWl/bdaPbeavvadffea/bebvffbfbdfPvb
-    e/fgb/Pam/fgcvfgePTbnfbcl/bfivfjdvfjePbemfjelPXeoPjkePbfmvffnvbfofjlgffjkvfh
-    nvjio/nnhvfjovjmlvzlmvrmpvrrmfzpp/zqq/vqr/zssvvvp/vvqfvvuPvvuvvwvfzzwP//////
-    ////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////yH+FUNyZWF0ZWQgd2l0aCBU
-    aGUgR0lNUAAh+QQBCgD/ACwAAAAAEAAQAAAIzAD/CRxIsKDBfydMlBhxcGAKNIkgPTLUpcPBJIUa
-    +VEThswfPDQKokB0yE4aMFiiOPnCJ8PAE20Y6VnTQMsUBkWAjKFyQaCJRYLcmOFipYmRHzV89Kkg
-    kESkOme8XHmCREiOGC/2TBAowhGcAyGkKBnCwwKAFnciCAShKA4RAhyK9MAQwIMMOQ8EdhBDKMuN
-    BQMEFPigAsoRBQM1BGLjRIiOGSxWBCmToCCMOXSW2HCBo8qWDQcvMMkzCNCbHQga/qMgAYIDBQZU
-    yxYYEAA7
-'''
+# Used to manage how fast the screen updates
+clock = pygame.time.Clock()
 
+# -------- Main Program Loop -----------
+while not done:
+    for event in pygame.event.get():  # User did something
+        if event.type == pygame.QUIT:  # If user clicked close
+            done = True  # Flag that we are done so we exit this loop
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            # User clicks the mouse. Get the position
+            pos = pygame.mouse.get_pos()
+            # Change the x/y screen coordinates to grid coordinates
+            column = pos[0] // (WIDTH + MARGIN)
+            row = pos[1] // (HEIGHT + MARGIN)
+            # Set that location to zero
+            grid[row][column] = 1
+            print("Click ", pos, "Grid coordinates: ", row, column)
 
+    # Set the screen background
+    screen.fill(BLACK)
 
-if __name__ == "__main__":
-    root = tk.Tk()
-    board = GameBoard(root)
-    board.pack(side="top", fill="both", expand="true", padx=4, pady=4)
-    food = []
-    for i in range(len(game.board)):
-        for k in range(len(game.board[i])):
-            pass
+    # Draw the grid
+    for row in range(10):
+        for column in range(10):
+            color = WHITE
+            if grid[row][column] == 1:
+                color = GREEN
+            pygame.draw.rect(screen,
+                             color,
+                             [(MARGIN + WIDTH) * column + MARGIN,
+                              (MARGIN + HEIGHT) * row + MARGIN,
+                              WIDTH,
+                              HEIGHT])
 
-    player1 = tk.PhotoImage(data=imagedata)
-    board.addpiece("player1", player1, 1,0)
-    root.mainloop()
+    # Limit to 60 frames per second
+    clock.tick(60)
+
+    # Go ahead and update the screen with what we've drawn.
+    pygame.display.flip()
+
+# Be IDLE friendly. If you forget this line, the program will 'hang'
+# on exit.
+pygame.quit()
