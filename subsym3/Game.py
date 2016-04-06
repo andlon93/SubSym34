@@ -126,7 +126,7 @@ class game:
 		food_eaten = self.food_count - curr_food_count
 		poison_eaten = self.poison_count - curr_poison_count
 		# if poison_eaten > 0:
-		# 	food_eaten = food_eaten / 1.5
+		#  	food_eaten = 0
 		# print (food_eaten)
 		# print (poison_eaten)
 		if (food_eaten - poison_eaten) < 1:

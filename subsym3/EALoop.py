@@ -114,7 +114,7 @@ def EA_Loop(scaling, p_selection, adult_alg, pop_size, generation_limit, NSplits
 		#plotting2.append(calculate_avg_std(survivors)[0])
 
 		# --- Logging.
-		#print("Antall mat: ", default_game.food_count, "Antall gift: ", default_game.poison_count)
+		print("Antall mat: ", default_game.food_count, "Antall gift: ", default_game.poison_count)
 		print (Ngenerations,",",best_individual.fitness,",",avg_fitness,",",std_fitness)
 		#if Ngenerations%2==0: print("#", Ngenerations, "\nBest individual --- ", "Fitness: ", best_individual.fitness, "\nGenotype: ", best_individual.genotype, "\nAverage of fitness: ", avg_fitness, ". Standard deviation of fitness: ", std_fitness, ".\n")
 		#print("#", Ngenerations, "\nBest individual --- ", "Fitness: ", best_individual.fitness, "\nGenotype: ", best_individual.genotype, "\nAverage of fitness: ", avg_fitness, ". Standard deviation of fitness: ", std_fitness, ".\n")

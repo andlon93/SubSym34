@@ -64,8 +64,8 @@ for i in range(len(board)):
 actions = [[0 for x in range(2)] for k in range(60) ]
 for i in range(60):
 	temp = fo.readline()
-	actions[i][0] = temp[1]
-	actions[i][1] = temp[4]
+	actions[i][0] = temp[4]
+	actions[i][1] = temp[1]
 for a in board:
 	print (a)
 
@@ -85,7 +85,7 @@ while True:
 		for column in range(MAPWIDTH):
 			#draw the resource at that position in the tilemap, using the correct colour
 			pass
-			pygame.draw.rect(DISPLAYSURF, BLACK, (column*TILESIZE,row*TILESIZE,TILESIZE,TILESIZE))
+			pygame.draw.rect(DISPLAYSURF, YELLOW, (column*TILESIZE,row*TILESIZE,TILESIZE,TILESIZE))
 	time.sleep(delay)
 	for row in range(10):
 		for til in range(10):
@@ -103,6 +103,8 @@ while True:
 		pygame.draw.rect(DISPLAYSURF,YELLOW, (til*TILESIZE,row*TILESIZE,TILESIZE,TILESIZE))
 		pygame.display.update()
 		time.sleep(0.5)
+
+
 	time.sleep(5)
 
 	pygame.display.update()
