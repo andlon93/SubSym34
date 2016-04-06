@@ -15,7 +15,7 @@ def gen_new_board():
 	default_game = copy.deepcopy(new_game)
 
 #Global variables:
-static = False
+static = True
 default_game = None
 gen_new_board()
 
@@ -107,7 +107,7 @@ def EA_Loop(scaling, p_selection, adult_alg, pop_size, generation_limit, NSplits
 
 
 
-		best_individual.save_game_log(default_game)
+		best_individual.save_game_log(default_game,"test.txt")
 
 		# --- For plotting
 		plotting.append(best_individual.fitness)
@@ -125,6 +125,7 @@ def EA_Loop(scaling, p_selection, adult_alg, pop_size, generation_limit, NSplits
 		print ("Generating new board to best best individual")
 		gen_new_board()
 		best_individual.update_fitness(default_game)
+		best_individual.save_game_log(default_game,"done.txt")
 		print ("Total food on new board: ",default_game.food_count)
 		print ("Fitness of best on new board: ",best_individual.fitness)
 

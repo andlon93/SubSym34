@@ -56,7 +56,7 @@ class individual:
 			#self.update_fitness(copy.deepcopy(self.game))
 		return is_mutated
 	#
-	def save_game_log(self,game):
+	def save_game_log(self,game,filename):
 		write_string = ""
 
 		game = copy.deepcopy(game)
@@ -74,7 +74,7 @@ class individual:
 			#game.move(0)
 		#self.fitness = game.evalFitness()
 		#print ("Fitness: ", self.fitness)
-		with open("test.txt", "w") as myfile:
+		with open(filename, "w") as myfile:
 			myfile.write(write_string)
 	#
 	def update_fitness(self, g):

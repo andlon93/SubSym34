@@ -2,6 +2,7 @@ import pygame, sys
 from pygame.locals import *
 #constants representing colours
 BLACK = (0, 0, 0 )
+BLACKK = (10, 10, 10 )
 BROWN = (153, 76, 0 )
 GREEN = (0, 255, 0 )
 BLUE = (0, 0, 255)
@@ -37,7 +38,7 @@ MAPHEIGHT = 10
 pygame.init()
 DISPLAYSURF = pygame.display.set_mode((MAPWIDTH*TILESIZE,MAPHEIGHT*TILESIZE))
 
-fo = open("test.txt", "r")
+fo = open("done.txt", "r")
 board = [[0 for x in range(10)] for k in range(10) ]
 for i in range(10):
 	temp = fo.readline()
@@ -89,12 +90,12 @@ while True:
 	last = None
 	for i in range(len(actions)):
 		if not last==None:
-			pygame.draw.rect(DISPLAYSURF,BLACK, (last[0]*TILESIZE,last[1]*TILESIZE,TILESIZE,TILESIZE))
+			pygame.draw.rect(DISPLAYSURF,BLACKK, (last[0]*TILESIZE,last[1]*TILESIZE,TILESIZE,TILESIZE))
 		til = int(actions[i][0])
 		row = int(actions[i][1])
 		last = (til,row)
 		print(til, row)
 		pygame.draw.rect(DISPLAYSURF,YELLOW, (til*TILESIZE,row*TILESIZE,TILESIZE,TILESIZE))
 		pygame.display.update()
-		time.sleep(0.07)
+		time.sleep(0.05)
 	pygame.display.update()
