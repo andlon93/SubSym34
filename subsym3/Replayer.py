@@ -5,27 +5,21 @@ BLACK = (0, 0, 0 )
 BROWN = (153, 76, 0 )
 GREEN = (0, 255, 0 )
 BLUE = (0, 0, 255)
+YELLOW = (0 ,255 , 255)
 import time
 #constants representing the different resources
 DIRT = 0
 GRASS = 1
 WATER = 2
 COAL = 3
-PLAYER=4
-FOOD=5
-POISON=6
-BACK=7
-YELLOW=8
+
+
 #a dictionary linking resources to colours
 colours = {
 			DIRT : BROWN,
 			GRASS : GREEN,
 			WATER : BLUE,
-			COAL : BLACK,
-			PLAYER : BROWN,
-			FOOD : GREEN,
-			POISON : BLUE,
-			BACK : BLACK
+			COAL : BLACK
 			}
 #a list representing our tilemap
 tilemap = [
@@ -79,13 +73,13 @@ while True:
 			#and the game and close the window
 			pygame.quit()
 			sys.exit()
-	#loop through each row
-	for row in range(MAPHEIGHT):
-		#loop through each column in the row
-		for column in range(MAPWIDTH):
-			#draw the resource at that position in the tilemap, using the correct colour
-			pass
-			pygame.draw.rect(DISPLAYSURF, YELLOW, (column*TILESIZE,row*TILESIZE,TILESIZE,TILESIZE))
+	# #loop through each row
+	# for row in range(MAPHEIGHT):
+	# 	#loop through each column in the row
+	# 	for column in range(MAPWIDTH):
+	# 		#draw the resource at that position in the tilemap, using the correct colour
+	# 		pass
+	# 		pygame.draw.rect(DISPLAYSURF, YELLOW, (column*TILESIZE,row*TILESIZE,TILESIZE,TILESIZE))
 	time.sleep(delay)
 	for row in range(10):
 		for til in range(10):
@@ -95,16 +89,12 @@ while True:
 	last = None
 	for i in range(len(actions)):
 		if not last==None:
-			pygame.draw.rect(DISPLAYSURF,GREEN, (last[0]*TILESIZE,last[1]*TILESIZE,TILESIZE,TILESIZE))
+			pygame.draw.rect(DISPLAYSURF,BLACK, (last[0]*TILESIZE,last[1]*TILESIZE,TILESIZE,TILESIZE))
 		til = int(actions[i][0])
 		row = int(actions[i][1])
 		last = (til,row)
 		print(til, row)
 		pygame.draw.rect(DISPLAYSURF,YELLOW, (til*TILESIZE,row*TILESIZE,TILESIZE,TILESIZE))
 		pygame.display.update()
-		time.sleep(0.5)
-
-
-	time.sleep(5)
-
+		time.sleep(0.07)
 	pygame.display.update()

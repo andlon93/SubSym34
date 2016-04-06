@@ -43,13 +43,23 @@ class individual:
 			u=rng.randint(0,len(self.genotype[t])-1)
 			v=rng.randint(0,len(self.genotype[t][u])-1)
 			self.genotype[t][u][v] = rng.random()
+			if rng.random() < self.mutation_prob:
+				t=rng.randint(0,len(self.genotype)-1)
+				u=rng.randint(0,len(self.genotype[t])-1)
+				v=rng.randint(0,len(self.genotype[t][u])-1)
+				self.genotype[t][u][v] = rng.random()
+				if rng.random() < self.mutation_prob:
+					t=rng.randint(0,len(self.genotype)-1)
+					u=rng.randint(0,len(self.genotype[t])-1)
+					v=rng.randint(0,len(self.genotype[t][u])-1)
+					self.genotype[t][u][v] = rng.random()
 			#self.update_fitness(copy.deepcopy(self.game))
 		return is_mutated
 	#
-	def save_game_log(self):
+	def save_game_log(self,game):
 		write_string = ""
 
-		game = copy.deepcopy(EA.default_game)
+		game = copy.deepcopy(game)
 		for row in game.board:
 			for col in row:
 				write_string = write_string + str(col)
