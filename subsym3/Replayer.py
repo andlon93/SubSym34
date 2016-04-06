@@ -59,7 +59,7 @@ for i in range(len(board)):
 		elif (board[i][k]==2):
 			board[i][k]=BROWN
 		elif (board[i][k]==3):
-			board[i][k]=GREEN
+			board[i][k]=YELLOW
 
 actions = [[0 for x in range(2)] for k in range(60) ]
 for i in range(60):
@@ -103,5 +103,6 @@ while True:
 		pygame.draw.rect(DISPLAYSURF,YELLOW, (til*TILESIZE,row*TILESIZE,TILESIZE,TILESIZE))
 		pygame.display.update()
 		time.sleep(0.5)
+	time.sleep(5)
 
 	pygame.display.update()

@@ -47,7 +47,7 @@ class individual:
 		return is_mutated
 	#
 	def save_game_log(self):
-		write_string = "\n"
+		write_string = ""
 
 		game = copy.deepcopy(EA.default_game)
 		for row in game.board:
