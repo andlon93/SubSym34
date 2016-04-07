@@ -15,7 +15,7 @@ def gen_new_board():
 	default_game = copy.deepcopy(new_game)
 
 #Global variables:
-static = False
+static = True
 default_game = None
 gen_new_board()
 
