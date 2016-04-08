@@ -2,22 +2,22 @@ import random as rng
 import ParentSelection as PS
 import numpy as np
 import copy
-import Game as G
 import FlatLandEA as FL
 ### Function that: Make children based on two genotypes
 	#	Input:         two genotypes
 	#   Outout:        Children(new genotypes)
 def One_Point_Crossover(female, male):
 	# Number to split the genomes on
-	split = rng.randint(0, len(female.genotype)-1)
+	split = rng.randint(0, len(female.genotype[0])-1)
+	#print("SPLITS: ", split)
 
 	# Splitting the females genome on the split number
-	female_genome_1 = female.genotype[:split]
-	female_genome_2 = female.genotype[split:]
+	female_genome_1 = female.genotype[0][:split]
+	female_genome_2 = female.genotype[0][split:]
 
 	# Splitting the males genome on the split number
-	male_genome_1 = male.genotype[:split]
-	male_genome_2 = male.genotype[split:]
+	male_genome_1 = male.genotype[0][:split]
+	male_genome_2 = male.genotype[0][split:]
 
 	'''
 	print(split)
@@ -27,11 +27,9 @@ def One_Point_Crossover(female, male):
 	child =  OM.individual(female.genotype_Length, female.mutation_prob, female_genome+male_genome)
 	print(child.genotype)
 	'''
-
-
 	m=male.mutation_prob
-	child1 = FL.individual(m, None, female_genome_1+male_genome_2)
-	child2 = FL.individual(m, None, male_genome_1+female_genome_2)
+	child1 = FL.individual(m, None, [female_genome_1+male_genome_2])
+	child2 = FL.individual(m, None, [male_genome_1+female_genome_2])
 	# Returning the new genotypes combined from the two parents
 	return child1, child2
 
@@ -46,6 +44,7 @@ def N_Point_Crossover(parents, Nsplits):
 	splits.append(0)
 	splits.append(Ngenes)
 	splits = sorted(splits)
+	print("SPLITS: ", splits)
 
 	genome1 = []
 	genome2 = []
@@ -82,6 +81,7 @@ def make_children(adults, children_size, Nsplits, p, p_selection, scaling):
 		else:
 			child1 = parents[0]
 			child2 = parents[1]
+
 
 		# --- Possible mutation.
 		child1.try_to_mutate()
