@@ -38,7 +38,7 @@ MAPHEIGHT = 10
 pygame.init()
 DISPLAYSURF = pygame.display.set_mode((MAPWIDTH*TILESIZE,MAPHEIGHT*TILESIZE))
 
-fo = open("done.txt", "r")
+fo = open("test.txt", "r")
 board = [[0 for x in range(10)] for k in range(10) ]
 for i in range(10):
 	temp = fo.readline()
