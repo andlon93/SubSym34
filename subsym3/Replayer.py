@@ -38,7 +38,7 @@ MAPHEIGHT = 10
 pygame.init()
 DISPLAYSURF = pygame.display.set_mode((MAPWIDTH*TILESIZE,MAPHEIGHT*TILESIZE))
 
-fo = open("done.txt", "r")
+fo = open("test.txt", "r")
 board = [[0 for x in range(10)] for k in range(10) ]
 for i in range(10):
 	temp = fo.readline()
@@ -65,7 +65,8 @@ for a in board:
 	print (a)
 
 delay = 1
-
+myimage = pygame.image.load("arrow.png")
+imagerect = myimage.get_rect()
 while True:
 	#get all the user events
 	for event in pygame.event.get():
@@ -81,6 +82,8 @@ while True:
 	# 		#draw the resource at that position in the tilemap, using the correct colour
 	# 		pass
 	# 		pygame.draw.rect(DISPLAYSURF, YELLOW, (column*TILESIZE,row*TILESIZE,TILESIZE,TILESIZE))
+	screen.blit(myimage, imagerect)
+	pygame.display.flip()
 	time.sleep(delay)
 	for row in range(10):
 		for til in range(10):
