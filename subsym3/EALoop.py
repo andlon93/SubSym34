@@ -15,7 +15,7 @@ def gen_new_board():
 	default_game = copy.deepcopy(new_game)
 
 #Global variables:
-static = True
+static = False
 default_game = None
 gen_new_board()
 
@@ -117,7 +117,7 @@ def EA_Loop(scaling, p_selection, adult_alg, pop_size, generation_limit, NSplits
 		print("Antall mat: ", default_game.food_count, "Antall gift: ", default_game.poison_count)
 		print (Ngenerations,",",best_individual.fitness,",",avg_fitness,",",std_fitness)
 		#if Ngenerations%2==0: print("#", Ngenerations, "\nBest individual --- ", "Fitness: ", best_individual.fitness, "\nGenotype: ", best_individual.genotype, "\nAverage of fitness: ", avg_fitness, ". Standard deviation of fitness: ", std_fitness, ".\n")
-		#print("#", Ngenerations, "\nBest individual --- ", "Fitness: ", best_individual.fitness, "\nGenotype: ", best_individual.genotype, "\nAverage of fitness: ", avg_fitness, ". Standard deviation of fitness: ", std_fitness, ".\n")
+		#print("#", Ngenerations, "\nBest individual --- ", "Fitness: ", best_individual.fitnesstness, "\nGenotype: ", best_individual.genotype, "\nAverage of fitness: ", avg_fitness, ". Standard deviation of fitness: ", std_fitness, ".\n")
 		if best_individual.fitness == default_game.food_count: print("#", Ngenerations, "\t Best individual is optimized!")
 	#
 	print ("DONE")

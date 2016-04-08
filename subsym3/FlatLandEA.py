@@ -37,6 +37,7 @@ class individual:
 	#
 	def try_to_mutate(self):
 		is_mutated=False
+
 		if rng.random() < self.mutation_prob:
 			is_mutated=True
 			t=rng.randint(0,len(self.genotype)-1)
