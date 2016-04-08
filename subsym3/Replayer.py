@@ -97,5 +97,5 @@ while True:
 		print(til, row)
 		pygame.draw.rect(DISPLAYSURF,YELLOW, (til*TILESIZE,row*TILESIZE,TILESIZE,TILESIZE))
 		pygame.display.update()
-		time.sleep(0.05)
+		time.sleep(0.5)
 	pygame.display.update()
