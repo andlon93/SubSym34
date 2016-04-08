@@ -57,16 +57,38 @@ for i in range(len(board)):
 			board[i][k]=YELLOW
 
 actions = [[0 for x in range(2)] for k in range(60) ]
+directions = [0 for x in range (60)]
 for i in range(60):
 	temp = fo.readline()
 	actions[i][0] = temp[4]
 	actions[i][1] = temp[1]
+	if (temp[6]=="1"):
+		directions[i] = "RIGHT"
+	elif (temp[6]=="2"):
+		directions[i] = "DOWN"
+	elif (temp[6]=="0"):
+		directions[i] = "UP"
+	elif (temp[6]=="-"):
+		directions[i] = "LEFT"
 for a in board:
 	print (a)
 
 delay = 1
-myimage = pygame.image.load("arrow.png")
-imagerect = myimage.get_rect()
+down_ar = pygame.image.load("arrow_down.png")
+down_ar = pygame.transform.scale(down_ar, (40,40))
+down_rect = down_ar.get_rect()
+
+left_ar = pygame.image.load("arrow_left.png")
+lfet_ar = pygame.transform.scale(left_ar, (40,40))
+left_rect = left_ar.get_rect()
+
+right_ar = pygame.image.load("arrow_right.png")
+right_ar = pygame.transform.scale(right_ar, (40,40))
+right_rect = right_ar.get_rect()
+
+up_ar = pygame.image.load("arrow_up.png")
+up_ar = pygame.transform.scale(up_ar, (40,40))
+up_rect = up_ar.get_rect()
 while True:
 	#get all the user events
 	for event in pygame.event.get():
@@ -82,12 +104,13 @@ while True:
 	# 		#draw the resource at that position in the tilemap, using the correct colour
 	# 		pass
 	# 		pygame.draw.rect(DISPLAYSURF, YELLOW, (column*TILESIZE,row*TILESIZE,TILESIZE,TILESIZE))
-	# screen.blit(myimage, imagerect)
-	# pygame.display.flip()
-	# time.sleep(delay)
+
+	time.sleep(delay)
 	for row in range(10):
 		for til in range(10):
 			pygame.draw.rect(DISPLAYSURF, board[row][til], (til*TILESIZE,row*TILESIZE,TILESIZE,TILESIZE))
+
+
 	pygame.display.update()
 	time.sleep(delay)
 	last = None
@@ -98,7 +121,31 @@ while True:
 		row = int(actions[i][1])
 		last = (til,row)
 		print(til, row)
-		pygame.draw.rect(DISPLAYSURF,YELLOW, (til*TILESIZE,row*TILESIZE,TILESIZE,TILESIZE))
+
+		print (directions[i])
+		if directions[i]=="DOWN":
+			down_rect.x=(til*TILESIZE)
+			down_rect.y=(row*TILESIZE)
+			DISPLAYSURF.blit(down_ar, down_rect)
+			pygame.display.flip()
+		if directions[i]=="UP":
+			up_rect.x=(til*TILESIZE)
+			up_rect.y=(row*TILESIZE)
+			DISPLAYSURF.blit(up_ar, up_rect)
+			pygame.display.flip()
+		if directions[i]=="RIGHT":
+			right_rect.x=(til*TILESIZE)
+			right_rect.y=(row*TILESIZE)
+			DISPLAYSURF.blit(right_ar, right_rect)
+			pygame.display.flip()
+		if directions[i]=="LEFT":
+			left_rect.x=(til*TILESIZE)
+			left_rect.y=(row*TILESIZE)
+			DISPLAYSURF.blit(left_ar, left_rect)
+			pygame.display.flip()
+
+
+		#pygame.draw.rect(DISPLAYSURF,YELLOW, (til*TILESIZE,row*TILESIZE,TILESIZE,TILESIZE))
 		pygame.display.update()
 		time.sleep(0.5)
 	pygame.display.update()

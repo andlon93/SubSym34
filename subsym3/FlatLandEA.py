@@ -61,7 +61,8 @@ class individual:
 		for i in range(60):
 			move = network.forward_propagation(game.getNearbyTiles())
 			game.move(move)
-			write_string += str(game.player_pos) + "\n"
+			write_string += str(game.player_pos)
+			write_string += str(game.player_dir) + " \n"
 			#game.move(0)
 		#self.fitness = game.evalFitness()
 		#print ("Fitness: ", self.fitness)
