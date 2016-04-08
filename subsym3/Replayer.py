@@ -82,9 +82,9 @@ while True:
 	# 		#draw the resource at that position in the tilemap, using the correct colour
 	# 		pass
 	# 		pygame.draw.rect(DISPLAYSURF, YELLOW, (column*TILESIZE,row*TILESIZE,TILESIZE,TILESIZE))
-	screen.blit(myimage, imagerect)
-	pygame.display.flip()
-	time.sleep(delay)
+	# screen.blit(myimage, imagerect)
+	# pygame.display.flip()
+	# time.sleep(delay)
 	for row in range(10):
 		for til in range(10):
 			pygame.draw.rect(DISPLAYSURF, board[row][til], (til*TILESIZE,row*TILESIZE,TILESIZE,TILESIZE))
