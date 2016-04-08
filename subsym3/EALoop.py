@@ -58,7 +58,7 @@ def EA_Loop(scaling, p_selection, adult_alg, pop_size, generation_limit, NSplits
 
 
 	for i in range(pop_size):
-		new_individual = FL.individual(1.0, layers)
+		new_individual = FL.individual(mutation_rate, layers)
 		new_individual.update_fitness(default_game)
 		survivors.append(new_individual)
 	# --- Initialize generation count.
