@@ -37,7 +37,7 @@ MAPHEIGHT = 10
 #set up the display
 pygame.init()
 DISPLAYSURF = pygame.display.set_mode((MAPWIDTH*TILESIZE,MAPHEIGHT*TILESIZE))
-
+last = None
 fo = open("test.txt", "r")
 board = [[0 for x in range(10)] for k in range(10) ]
 for i in range(10):
@@ -54,6 +54,7 @@ for i in range(len(board)):
 		elif (board[i][k]==2):
 			board[i][k]=BROWN
 		elif (board[i][k]==3):
+			last = (i,k)
 			board[i][k]=YELLOW
 
 actions = [[0 for x in range(2)] for k in range(60) ]
@@ -113,7 +114,7 @@ while True:
 
 	pygame.display.update()
 	time.sleep(delay)
-	last = None
+
 	for i in range(len(actions)):
 		if not last==None:
 			pygame.draw.rect(DISPLAYSURF,BLACKK, (last[0]*TILESIZE,last[1]*TILESIZE,TILESIZE,TILESIZE))
@@ -147,5 +148,5 @@ while True:
 
 		#pygame.draw.rect(DISPLAYSURF,YELLOW, (til*TILESIZE,row*TILESIZE,TILESIZE,TILESIZE))
 		pygame.display.update()
-		time.sleep(0.5)
+		time.sleep(0.2)
 	pygame.display.update()

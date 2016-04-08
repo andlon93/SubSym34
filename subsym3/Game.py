@@ -51,6 +51,8 @@ class game:
 
 	def move(self,dir):
 		#dir: -1=left, 0=forward, 1=right
+		dir = dir - 1
+
 		player_dir = self.player_dir
 		player_pos = self.player_pos
 		length = len(self.board)
@@ -126,13 +128,14 @@ class game:
 		food_eaten = self.food_count - curr_food_count
 		poison_eaten = self.poison_count - curr_poison_count
 		# if poison_eaten > 0:
-		#  	food_eaten = 0
+		# 	food_eaten = 0
 		# print (food_eaten)
 		# print (poison_eaten)
 		if (food_eaten - poison_eaten) < 1:
 			return 0
 		else:
-			return ((food_eaten - poison_eaten)/self.food_count)
+			#return ((food_eaten - poison_eaten)/self.food_count)
+			return ((food_eaten - (poison_eaten/0.7))/self.food_count)
 
 
 	def getNearbyTiles(self):

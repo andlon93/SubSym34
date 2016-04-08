@@ -55,8 +55,6 @@ def EA_Loop(scaling, p_selection, adult_alg, pop_size, generation_limit, NSplits
 	survivors = []
 	parents = []
 
-
-
 	for i in range(pop_size):
 		new_individual = FL.individual(mutation_rate, layers)
 		new_individual.update_fitness(default_game)
@@ -91,6 +89,10 @@ def EA_Loop(scaling, p_selection, adult_alg, pop_size, generation_limit, NSplits
 		children = C.make_children(survivors, pop_size, NSplits, Crossover_rate, p_selection, scaling)
 		for child in children:
 			child.update_fitness(default_game)
+		for i in range(10):
+			new_individual = FL.individual(mutation_rate, layers)
+			new_individual.update_fitness(default_game)
+			children.append(new_individual)
 		#print("children made")
 		# --- Select individuals for the next generation.
 		#     N of the best individuals survive (fitness biased).
@@ -262,7 +264,7 @@ def run():
 if __name__ == '__main__':
 	#       scaling, p_selection, adult_alg, pop_size, generation_limit, NSplits, Crossover_rate, mutation_rate, layers)
 	#EA_Loop(PS.rank_scaling , PS.Tournament_Selection, AS.Full_Generational_Replacement, 100, 100,2, 0.2, 0.01, [6,3])
-	EA_Loop(PS.rank_scaling , PS.Tournament_Selection, AS.Full_Generational_Replacement, 150, 100,2, 0.4, 0.5, [6,3])
+	EA_Loop(PS.rank_scaling , PS.Tournament_Selection, AS.Full_Generational_Replacement, 100, 100,2, 0.4, 0.1, [6,3])
 	#Crossover_rate = 0.8
 	#mutation_rate = 0.0001
 	#print("\n--- Tournament: eps:0.05 k=64")
