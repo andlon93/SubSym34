@@ -113,7 +113,9 @@ def EA_Loop(scaling, p_selection, adult_alg, pop_size, generation_limit, NSplits
 	children = []
 	survivors = []
 	parents = []
-
+	boards = [0 for x in range(5)]
+	for i in range(5):
+		boards[i] = gen_new_board()
 	# for i in range(pop_size):
 	# 	new_individual = FL.individual(mutation_rate, layers)
 	# 	new_individual.update_fitness(default_game)
@@ -173,7 +175,13 @@ def EA_Loop(scaling, p_selection, adult_alg, pop_size, generation_limit, NSplits
 
 		if test_5:
 			if static:
-				update_fitness_5_stat(children)
+				print ("STATIC")
+				for child in children:
+					tempval = 0
+					for i in range(5):
+						child.update_fitness(boards[i])
+						tempval+=child.fitness
+					child.fitness = tempval / 5
 			if not static:
 				print("DYNAMIC")
 				for child in children:
