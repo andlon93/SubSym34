@@ -174,9 +174,14 @@ def EA_Loop(scaling, p_selection, adult_alg, pop_size, generation_limit, NSplits
 		if test_5:
 			if static:
 				update_fitness_5_stat(children)
-			else:
-				print ("test5, dynamic")
-				update_fintess_5_dyn(children)
+			if not static:
+				print("DYNAMIC")
+				for child in children:
+					tempval = 0
+					for i in range(5):
+						child.update_fitness(gen_new_board())
+						tempval += child.fitness
+					child.fitness = tempval / 5
 		else:
 			if not static:
 				gen_new_board()
