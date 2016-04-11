@@ -76,6 +76,7 @@ class individual:
 			game.move(network.forward_propagation(game.getNearbyTiles()))
 			#game.move(0)
 		self.fitness = game.evalFitness()
+		return self
 		#print ("Fitness: ", self.fitness)
 
 
