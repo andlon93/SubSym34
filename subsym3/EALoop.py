@@ -18,7 +18,7 @@ def gen_new_board():
 
 #Global variables:
 static = False
-test_5 = False
+test_5 = True
 default_game = None
 gen_new_board()
 
