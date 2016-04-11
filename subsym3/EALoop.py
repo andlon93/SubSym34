@@ -180,7 +180,7 @@ def EA_Loop(scaling, p_selection, adult_alg, pop_size, generation_limit, NSplits
 					tempval = 0
 					for i in range(5):
 						child.update_fitness(gen_new_board())
-						tempval = child.fitness
+						tempval += child.fitness
 					child.fitness = tempval / 5
 		else:
 			if not static:
