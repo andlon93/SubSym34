@@ -86,7 +86,7 @@ def EA_Loop(scaling, p_selection, adult_alg, pop_size, generation_limit, NSplits
 		#     Select parents.
 		#     Recombine pairs of parents.
 		#     Mutate the resulting offspring.
-		#print("Generation: ", Ngenerations)
+		print("Generation: ", Ngenerations)
 		children = C.make_children(survivors, pop_size, NSplits, Crossover_rate, p_selection, scaling)
 
 		if test_5:
@@ -141,23 +141,23 @@ def EA_Loop(scaling, p_selection, adult_alg, pop_size, generation_limit, NSplits
 
 		# --- For plotting
 		plotting.append(best_individual.fitness)
-		#plotting2.append(calculate_avg_std(survivors)[0])
+		plotting2.append(calculate_avg_std(survivors)[0])
 
 		# --- Logging.
-		print("Antall mat: ", default_game.food_count, "Antall gift: ", default_game.poison_count)
-		print (Ngenerations,",",best_individual.fitness,",",avg_fitness,",",std_fitness)
+		#print("Antall mat: ", default_game.food_count, "Antall gift: ", default_game.poison_count)
+		#print (Ngenerations,",",best_individual.fitness,",",avg_fitness,",",std_fitness)
 		#if Ngenerations%2==0: print("#", Ngenerations, "\nBest individual --- ", "Fitness: ", best_individual.fitness, "\nGenotype: ", best_individual.genotype, "\nAverage of fitness: ", avg_fitness, ". Standard deviation of fitness: ", std_fitness, ".\n")
 		#print("#", Ngenerations, "\nBest individual --- ", "Fitness: ", best_individual.fitnesstness, "\nGenotype: ", best_individual.genotype, "\nAverage of fitness: ", avg_fitness, ". Standard deviation of fitness: ", std_fitness, ".\n")
-		if best_individual.fitness == default_game.food_count: print("#", Ngenerations, "\t Best individual is optimized!")
+		#if best_individual.fitness == default_game.food_count: print("#", Ngenerations, "\t Best individual is optimized!")
 	#
 	print ("DONE")
-	if static:
-		print ("Generating new board to best best individual")
-		gen_new_board()
-		best_individual.update_fitness(default_game)
-		best_individual.save_game_log(default_game,"done.txt")
-		print ("Total food on new board: ",default_game.food_count)
-		print ("Fitness of best on new board: ",best_individual.fitness)
+	#if static:
+	print ("Generating new board to best best individual")
+	gen_new_board()
+	best_individual.update_fitness(default_game)
+	best_individual.save_game_log(default_game,"dynamicOneRun.txt")
+	print ("Total food on new board: ",default_game.food_count)
+	print ("Fitness of best on new board: ",best_individual.fitness)
 
 	if Ngenerations%10==0: print("#", Ngenerations, "\nBest individual --- ", "Fitness: ", best_individual.fitness, "\nGenotype: ", best_individual.genotype)
 	#if Choose_problem>1: print("Fitness: ",best_individual.fitness,"\nSequence: ", best_individual.genotype)
@@ -165,7 +165,7 @@ def EA_Loop(scaling, p_selection, adult_alg, pop_size, generation_limit, NSplits
 	else: return Ngenerations, False, plotting, plotting2
 	#return Ngenerations
 #
-def main(bit_length, pop_size, Crossover_rate, mutation_rate, adult_alg, parent_alg, scaling, layers):
+def main():
 	#Choose_problem = 3 # 0==OneMax, 1==LOLZ, 2==LocalSS, 3==GlobalSS
 	#adult_alg = 0 # 0==full repl., 1==over prod., 2==Gen. mixing
 	#parent_alg = 0 # 0==Global, 1==tournament
@@ -189,6 +189,8 @@ def main(bit_length, pop_size, Crossover_rate, mutation_rate, adult_alg, parent_
 	#
 	#plotting=[[]]*100
 	#
+	Gen = 50
+	Ngenerations, isDone, plots, plots2 = EA_Loop(PS.rank_scaling , PS.Tournament_Selection, AS.Generational_Mixing, 200, Gen,1, 0.5, 0.01, [6,3])
 	'''
 	for i in range(N):
 		if adult_alg==0:
@@ -235,17 +237,17 @@ def main(bit_length, pop_size, Crossover_rate, mutation_rate, adult_alg, parent_
 	# --- Logging data for all the generations.
 	#print('Average number of generations = ', sum_generations/N, ' Standard deviation of number of generations ~ ', np.sqrt(std_generations/(N-1)))
 	#print('#fails: ', Nfails, ' / ', i+1, ' = ', Nfails/(i+1)*100, '%\n')
-	return plots
+	#return plots
 
 
 	# --- Plotting
-	'''plt.plot(range(1,len(plots)+1), plots, label='best individual')
+	plt.plot(range(1,len(plots)+1), plots, label='best individual')
 	plt.plot(range(1,len(plots2)+1), plots2, label='average in population')
 	plt.legend(loc='lower right')
 	plt.xlabel('Number of generations')
 	plt.ylabel('Fitness')
-	plt.axis([0, len(plots), 0, 1])
-	plt.show()'''
+	plt.axis([0, len(plots), 0, 1.1])
+	plt.show()
 #
 def run():
 	not_done="1"
@@ -292,11 +294,11 @@ def run():
 if __name__ == '__main__':
 	#       scaling, p_selection, adult_alg, pop_size, generation_limit, NSplits, Crossover_rate, mutation_rate, layers)
 	#EA_Loop(PS.rank_scaling , PS.Tournament_Selection, AS.Full_Generational_Replacement, 100, 100,2, 0.2, 0.01, [6,3])
-	EA_Loop(PS.rank_scaling , PS.Tournament_Selection, AS.Full_Generational_Replacement, 100, 100,2, 0.4, 0.1, [6,3])
+	#EA_Loop(PS.rank_scaling , PS.Tournament_Selection, AS.Full_Generational_Replacement, 100, 100,2, 0.4, 0.1, [6,3])
 	#Crossover_rate = 0.8
 	#mutation_rate = 0.0001
 	#print("\n--- Tournament: eps:0.05 k=64")
-	#s=main()
+	s=main()
 	#print("Global.\nS:15 bit:37")
 	'''j=1
 	temp=[]
