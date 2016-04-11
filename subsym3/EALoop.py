@@ -13,9 +13,11 @@ def gen_new_board():
 	new_game.generateBoard((1/3),(1/3),10)
 	global default_game
 	default_game = copy.deepcopy(new_game)
+	return copy.deepcopy(new_game)
 
 #Global variables:
 static = False
+test_5 = True
 default_game = None
 gen_new_board()
 
@@ -75,8 +77,7 @@ def EA_Loop(scaling, p_selection, adult_alg, pop_size, generation_limit, NSplits
 	# --- Run as long as the best individual has fitness below 1.
 	#while (best_individual.fitness < default_game.food_count and Ngenerations < generation_limit):
 	while (Ngenerations < generation_limit): #best fitness changes when dynamic board
-		if not static:
-			gen_new_board()
+
 			#print ("New board - dynamic")
 		# --- Update generation count.
 		Ngenerations += 1
@@ -87,8 +88,35 @@ def EA_Loop(scaling, p_selection, adult_alg, pop_size, generation_limit, NSplits
 		#     Mutate the resulting offspring.
 		#print("Generation: ", Ngenerations)
 		children = C.make_children(survivors, pop_size, NSplits, Crossover_rate, p_selection, scaling)
-		for child in children:
-			child.update_fitness(default_game)
+
+		if test_5:
+			print ("TEST_5")
+			if static:
+				print ("STATIC")
+				boards = [0 for x in range(5)]
+				for i in range(5):
+					boards[i] = gen_new_board()
+				for child in children:
+					tempval = 0
+					for i in range(5):
+						child.update_fitness(boards[i])
+						tempval+=child.fitness
+					child.fitness = tempval / 5
+			if not static:
+				print("DYNAMIC")
+				for child in children:
+					tempval = 0
+					for i in range(5):
+						child.update_fitness(gen_new_board())
+						tempval = child.fitness
+					child.fitness = tempval / 5
+		else:
+			if not static:
+				gen_new_board()
+			print ("NOT TEST_5")
+			for child in children:
+				child.update_fitness(default_game)
+
 		for i in range(10):
 			new_individual = FL.individual(mutation_rate, layers)
 			new_individual.update_fitness(default_game)
