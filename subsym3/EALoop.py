@@ -21,8 +21,10 @@ def gen_new_board():
 	return copy.deepcopy(new_game)
 
 #Global variables:
+
 static = True
 test_5 = True
+
 default_game = None
 gen_new_board()
 
@@ -219,7 +221,7 @@ def EA_Loop(scaling, p_selection, adult_alg, pop_size, generation_limit, NSplits
 	print ("Generating new board to best best individual")
 	gen_new_board()
 	best_individual.update_fitness(default_game)
-	best_individual.save_game_log(default_game,"dynamicOneRun.txt")
+	best_individual.save_game_log(default_game,"StaticOneRun.txt")
 	print ("Total food on new board: ",default_game.food_count)
 	print ("Fitness of best on new board: ",best_individual.fitness)
 
@@ -253,8 +255,8 @@ def main():
 	#
 	#plotting=[[]]*100
 	#
-	Gen = 50
-	Ngenerations, isDone, plots, plots2 = EA_Loop(PS.rank_scaling , PS.Tournament_Selection, AS.Generational_Mixing, 200, Gen,1, 0.5, 0.01, [6,3])
+	Gen = 20
+	Ngenerations, isDone, plots, plots2 = EA_Loop(PS.rank_scaling , PS.Tournament_Selection, AS.Generational_Mixing, 100, Gen,1, 0.5, 0.01, [6,3])
 	'''
 	for i in range(N):
 		if adult_alg==0:
