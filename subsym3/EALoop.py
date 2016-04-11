@@ -22,7 +22,7 @@ def gen_new_board():
 
 #Global variables:
 
-static = True
+static = False
 test_5 = True
 
 default_game = None
