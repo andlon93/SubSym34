@@ -155,6 +155,8 @@ def Tournament_Selection(scaling, adults, N_parents, eps, N):
 	#normalise_fitness(adults)
 	# --- The list containing the chosen parents.
 	parents = []
+	eps = 0.15
+	N_parents = 16
 
 	# --- Runs while not all parents have been chosen.
 	while (len(parents) < N_parents):
