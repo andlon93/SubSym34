@@ -97,22 +97,6 @@ def EA_Loop(scaling, p_selection, adult_alg, pop_size, generation_limit, NSplits
 	# MULTIPROCESSING END
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	# --- Initialize generation count.
 	Ngenerations = 1
 
@@ -142,9 +126,7 @@ def EA_Loop(scaling, p_selection, adult_alg, pop_size, generation_limit, NSplits
 		children = C.make_children(survivors, pop_size, NSplits, Crossover_rate, p_selection, scaling)
 
 		if test_5:
-			print ("TEST_5")
 			if static:
-				print ("STATIC")
 				boards = [0 for x in range(5)]
 				for i in range(5):
 					boards[i] = gen_new_board()
@@ -155,7 +137,6 @@ def EA_Loop(scaling, p_selection, adult_alg, pop_size, generation_limit, NSplits
 						tempval+=child.fitness
 					child.fitness = tempval / 5
 			if not static:
-				print("DYNAMIC")
 				for child in children:
 					tempval = 0
 					for i in range(5):
@@ -165,7 +146,6 @@ def EA_Loop(scaling, p_selection, adult_alg, pop_size, generation_limit, NSplits
 		else:
 			if not static:
 				gen_new_board()
-			print ("NOT TEST_5")
 			for child in children:
 				child.update_fitness(default_game)
 
