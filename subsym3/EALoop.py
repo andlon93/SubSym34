@@ -50,6 +50,30 @@ def calculate_avg_std(survivors):
 
 	return avg_fitness, std_fitness
 #
+def temp_up_fit_5_dyn(child,q):
+	import win32api,win32process,win32con
+	pid = win32api.GetCurrentProcessId()
+	handle = win32api.OpenProcess(win32con.PROCESS_ALL_ACCESS, True, pid)
+	win32process.SetPriorityClass(handle, win32process.BELOW_NORMAL_PRIORITY_CLASS)
+	q.put(child.update_fitness(gen_new_board()))
+
+def update_fintess_5_dyn(children):
+	k = [None] * 5
+	q = mp.Queue()
+
+	for child in children:
+		tempval = 0
+		for i in range(5):
+			k[i] = mp.Process(target=temp_up_fit_5_dyn, args=(child,q,))
+			k[i].start()
+		for i in range(5):
+			tempval = q.get().fitness
+		for i in range(5):
+			k[i].join()
+		child.fitness = tempval / 5
+		print ("average fitness of 5: ",tempval/5)
+
+
 
 def update_fitness_individ(children,q,game):
 	import win32api,win32process,win32con
@@ -136,13 +160,11 @@ def EA_Loop(scaling, p_selection, adult_alg, pop_size, generation_limit, NSplits
 						child.update_fitness(boards[i])
 						tempval+=child.fitness
 					child.fitness = tempval / 5
-			if not static:
+			else:
+				print ("test5, dynamic")
 				for child in children:
-					tempval = 0
-					for i in range(5):
-						child.update_fitness(gen_new_board())
-						tempval = child.fitness
-					child.fitness = tempval / 5
+					update_fintess_5_dyn(children)
+
 		else:
 			if not static:
 				gen_new_board()
