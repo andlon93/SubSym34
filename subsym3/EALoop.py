@@ -7,6 +7,7 @@ import ParentSelection as PS
 import Crossover as C
 import Game as G
 import copy
+import multiprocessing as mp
 
 def gen_new_board():
 	new_game = G.game()
@@ -49,6 +50,16 @@ def calculate_avg_std(survivors):
 
 	return avg_fitness, std_fitness
 #
+
+def update_fitness_individ(children,q,game):
+	import win32api,win32process,win32con
+	pid = win32api.GetCurrentProcessId()
+	handle = win32api.OpenProcess(win32con.PROCESS_ALL_ACCESS, True, pid)
+	win32process.SetPriorityClass(handle, win32process.BELOW_NORMAL_PRIORITY_CLASS)
+	for child in children:
+		child.update_fitness(game)
+		q.put(child)
+
 def EA_Loop(scaling, p_selection, adult_alg, pop_size, generation_limit, NSplits, Crossover_rate, mutation_rate, layers):
 	# Initialise first child pool. mutate to pheno. fitness calc.
 
@@ -57,10 +68,51 @@ def EA_Loop(scaling, p_selection, adult_alg, pop_size, generation_limit, NSplits
 	survivors = []
 	parents = []
 
+	# for i in range(pop_size):
+	# 	new_individual = FL.individual(mutation_rate, layers)
+	# 	new_individual.update_fitness(default_game)
+	# 	survivors.append(new_individual)
+
+	# MULTIPROCESSING START
+	number_of_cores = mp.cpu_count()
+	q = mp.Queue()
+	k = [None] * number_of_cores
+	temp_childs = [None] * number_of_cores
+	for i in range (number_of_cores):
+		temp_childs[i] = []
 	for i in range(pop_size):
 		new_individual = FL.individual(mutation_rate, layers)
-		new_individual.update_fitness(default_game)
 		survivors.append(new_individual)
+	for i in range (len(survivors)):
+		temp_childs[i%number_of_cores].append(survivors[i])
+	for i in range(number_of_cores):
+		k[i] = mp.Process(target=update_fitness_individ, args=(temp_childs[i],q,default_game,) )
+		k[i].start()
+	updated_children = []
+	for i in range (len(survivors)):
+		updated_children.append(q.get())
+	for i in range(number_of_cores):
+		k[i].join()
+	survivors = updated_children
+	# MULTIPROCESSING END
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	# --- Initialize generation count.
 	Ngenerations = 1
 
