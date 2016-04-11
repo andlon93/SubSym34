@@ -175,7 +175,6 @@ def EA_Loop(scaling, p_selection, adult_alg, pop_size, generation_limit, NSplits
 			if static:
 				update_fitness_5_stat(children)
 			else:
-				print ("test5, dynamic")
 				update_fintess_5_dyn(children)
 		else:
 			if not static:
