@@ -8,6 +8,10 @@ import Crossover as C
 import Game as G
 import copy
 import multiprocessing as mp
+import win32api,win32process,win32con
+pid = win32api.GetCurrentProcessId()
+handle = win32api.OpenProcess(win32con.PROCESS_ALL_ACCESS, True, pid)
+win32process.SetPriorityClass(handle, win32process.BELOW_NORMAL_PRIORITY_CLASS)
 
 def gen_new_board():
 	new_game = G.game()
@@ -17,8 +21,10 @@ def gen_new_board():
 	return copy.deepcopy(new_game)
 
 #Global variables:
+
 static = False
 test_5 = True
+
 default_game = None
 gen_new_board()
 
@@ -50,28 +56,44 @@ def calculate_avg_std(survivors):
 
 	return avg_fitness, std_fitness
 #
+def temp_up_fit_5_stat(child,q,game):
+	q.put(child.update_fitness(game))
+
+def update_fitness_5_stat(children):
+	boards = [0 for x in range(5)]
+	k = [None] * 5
+	q = mp.Queue()
+
+	for i in range(5):
+		boards[i] = gen_new_board()
+
+	for child in children:
+		tempval = 0
+		for i in range(5):
+			k[i] = mp.Process(target=temp_up_fit_5_stat, args=(child,q,boards[i]))
+			k[i].start()
+		for i in range(5):
+			tempval += q.get().fitness
+		for i in range(5):
+			k[i].join()
+		child.fitness = tempval / 5
+
 def temp_up_fit_5_dyn(child,q):
-	import win32api,win32process,win32con
-	pid = win32api.GetCurrentProcessId()
-	handle = win32api.OpenProcess(win32con.PROCESS_ALL_ACCESS, True, pid)
-	win32process.SetPriorityClass(handle, win32process.BELOW_NORMAL_PRIORITY_CLASS)
 	q.put(child.update_fitness(gen_new_board()))
 
 def update_fintess_5_dyn(children):
 	k = [None] * 5
 	q = mp.Queue()
-
 	for child in children:
 		tempval = 0
 		for i in range(5):
 			k[i] = mp.Process(target=temp_up_fit_5_dyn, args=(child,q,))
 			k[i].start()
 		for i in range(5):
-			tempval = q.get().fitness
+			tempval += q.get().fitness
 		for i in range(5):
 			k[i].join()
 		child.fitness = tempval / 5
-		print ("average fitness of 5: ",tempval/5)
 
 
 
@@ -151,20 +173,10 @@ def EA_Loop(scaling, p_selection, adult_alg, pop_size, generation_limit, NSplits
 
 		if test_5:
 			if static:
-				boards = [0 for x in range(5)]
-				for i in range(5):
-					boards[i] = gen_new_board()
-				for child in children:
-					tempval = 0
-					for i in range(5):
-						child.update_fitness(boards[i])
-						tempval+=child.fitness
-					child.fitness = tempval / 5
+				update_fitness_5_stat(children)
 			else:
 				print ("test5, dynamic")
-				for child in children:
-					update_fintess_5_dyn(children)
-
+				update_fintess_5_dyn(children)
 		else:
 			if not static:
 				gen_new_board()
